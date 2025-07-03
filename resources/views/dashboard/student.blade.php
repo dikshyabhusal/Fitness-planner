@@ -1,6 +1,9 @@
 <x-app-layout>
     <div class="min-h-screen bg-gradient-to-br from-orange-400 to-purple-600 py-12 px-4 sm:px-6 lg:px-8 text-white">
+        
+
         <div class="max-w-7xl mx-auto">
+            
             <h1 class="text-4xl font-extrabold text-center mb-4">Student Dashboard</h1>
             <p class="text-center text-orange-100 mb-10 text-lg">Track your workouts, follow plans, and stay on top of your fitness journey.</p>
 

@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function workoutPlans()
+    {
+        return $this->hasMany(WorkoutPlan::class, 'trainer_id');
+    }
+    public function savedWorkouts()
+{
+    return $this->belongsToMany(WorkoutPlan::class, 'saved_workout_plans', 'student_id', 'workout_plan_id');
+}
+
+
 }

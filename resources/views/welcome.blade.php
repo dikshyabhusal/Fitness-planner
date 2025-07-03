@@ -36,7 +36,8 @@
                     </ul>
                 </div>
                 <div class="flex justify-center">
-                    <img src="https://source.unsplash.com/600x400/?workout,training" alt="Workout Info" class="rounded-xl shadow-lg border-2 border-purple-500">
+
+                    <img src="{{ asset('storage/about.avif') }}" alt="Workout Info" class="rounded-xl shadow-lg border-2 border-purple-500">
                 </div>
             </section>
 

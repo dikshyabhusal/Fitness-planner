@@ -6,7 +6,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WorkoutController;
-
+use App\Http\Controllers\Trainer\WorkoutPlanController as TrainerWorkoutPlanController;
+use App\Http\Controllers\Student\WorkoutPlanController as StudentWorkoutPlanController;
+use App\Http\Controllers\Trainer\TrainerDashboardController;
+use App\Http\Controllers\Trainer\TrainerClientController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     return view('welcome')
@@ -49,7 +53,39 @@ Route::middleware(['auth', 'role:student'])->get('/student/dashboard', function 
 })->name('student.dashboard');
 
 Route::get('/workout/{slug}', [WorkoutController::class, 'show'])->name('workout.show');
+Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')->group(function () {
+    Route::get('/workout-plans', [TrainerWorkoutPlanController::class, 'index'])->name('workout_plans.index');
+    Route::get('/workout-plans/create', [TrainerWorkoutPlanController::class, 'create'])->name('workout_plans.create');
+    Route::post('/workout-plans', [TrainerWorkoutPlanController::class, 'store'])->name('workout_plans.store');
+});
+Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
+    Route::get('/workout-plans', [StudentWorkoutPlanController::class, 'index'])->name('workout_plans.index');
+    Route::get('/workout-plans/{id}', [StudentWorkoutPlanController::class, 'show'])->name('workout_plans.show');
+    Route::post('/workout-plans/{id}/save', [StudentWorkoutPlanController::class, 'save'])->name('workout_plans.save');
+});
 
+Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')->group(function () {
+    Route::get('/workout-plans/{id}', action: [TrainerWorkoutPlanController::class, 'show'])->name('workout_plans.show');
+    Route::get('/workout-plans/{id}/edit', [TrainerWorkoutPlanController::class, 'edit'])->name('workout_plans.edit');
+    Route::put('/workout-plans/{id}', [TrainerWorkoutPlanController::class, 'update'])->name('workout_plans.update');
+});
+
+Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')->group(function () {
+    Route::delete('/workout-plans/{id}', [TrainerWorkoutPlanController::class, 'destroy'])->name('workout_plans.destroy');
+});
+Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')->group(function () {
+    Route::get('/dashboard', [TrainerDashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')->group(function () {
+    Route::get('/clients', [TrainerClientController::class, 'index'])->name('clients.index');
+});
+
+
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/student/saved-data', [StudentController::class, 'savedData'])
+        ->name('student.saved.data');
+});
 
 // Breeze auth routes
 require __DIR__.'/auth.php';

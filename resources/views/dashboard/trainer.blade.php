@@ -6,18 +6,22 @@
 
             <!-- Dashboard Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
                 <!-- My Clients -->
                 <div class="bg-white bg-opacity-10 backdrop-blur rounded-xl p-6 shadow hover:shadow-lg transition">
                     <h2 class="text-xl font-semibold mb-2">My Clients</h2>
                     <p class="text-sm text-purple-200">View and manage all your assigned students and their progress.</p>
-                    <a href="#" class="mt-4 inline-block text-purple-300 hover:text-white font-medium">View Clients →</a>
+                    <a href="{{ route('trainer.clients.index') }}" class="mt-4 inline-block text-purple-300 hover:text-white font-medium">
+                        View Clients →
+                    </a>
                 </div>
 
-                <!-- Create Workout Plan -->
+
+                <!-- Create Workout Plan (Updated Route) -->
                 <div class="bg-white bg-opacity-10 backdrop-blur rounded-xl p-6 shadow hover:shadow-lg transition">
                     <h2 class="text-xl font-semibold mb-2">Create Workout Plan</h2>
                     <p class="text-sm text-purple-200">Design customized workout routines tailored to each student.</p>
-                    <a href="#" class="mt-4 inline-block text-purple-300 hover:text-white font-medium">Start Planning →</a>
+                    <a href="{{ route('trainer.workout_plans.create') }}" class="mt-4 inline-block text-purple-300 hover:text-white font-medium">Start Planning →</a>
                 </div>
 
                 <!-- Nutrition Guides -->
@@ -47,6 +51,7 @@
                     <p class="text-sm text-purple-200">Read client feedback and continuously improve your sessions.</p>
                     <a href="#" class="mt-4 inline-block text-purple-300 hover:text-white font-medium">Check Feedback →</a>
                 </div>
+
             </div>
         </div>
     </div>

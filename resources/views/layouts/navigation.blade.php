@@ -23,6 +23,18 @@
                 <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile*')" class="hover:text-purple-300">
                     Profile
                 </x-nav-link>
+
+                @role('trainer')
+                    <x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">
+                        Workout Plans
+                    </x-nav-link>
+                @endrole
+
+                @role('student')
+                    <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300">
+                        View Workouts
+                    </x-nav-link>
+                @endrole
             </div>
 
             <!-- User Dropdown -->
@@ -32,8 +44,7 @@
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md bg-purple-600 hover:bg-purple-700 text-white transition">
                             <div>{{ Auth::user()->name }}</div>
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M19 9l-7 7-7-7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
                     </x-slot>
@@ -42,11 +53,15 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             Profile
                         </x-dropdown-link>
+                        @role('student')
+        <x-dropdown-link :href="route('student.saved.data')">
+            View Saved Data
+        </x-dropdown-link>
+    @endrole
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                 Log Out
                             </x-dropdown-link>
                         </form>
@@ -86,10 +101,21 @@
                 Profile
             </x-responsive-nav-link>
 
+            @role('trainer')
+                <x-responsive-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')">
+                    Workout Plans
+                </x-responsive-nav-link>
+            @endrole
+
+            @role('student')
+                <x-responsive-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')">
+                    View Workouts
+                </x-responsive-nav-link>
+            @endrole
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault(); this.closest('form').submit();">
+                <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                     Log Out
                 </x-responsive-nav-link>
             </form>
