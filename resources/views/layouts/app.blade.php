@@ -35,15 +35,20 @@
             <main>
                 {{ $slot }}
             </main>
+            
         </div>
+        @hasanyrole('trainer|student')
+            @livewire('chat-popup')
+        @endhasanyrole
+
         @livewireScripts
         {{-- <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script> --}}
-        <script>
+        {{-- <script>
             Livewire.on('openChatWith', ({ senderId }) => {
                 // Redirect trainer to chat page with that student
                 window.location.href = `/trainer/chat/${senderId}`;
             });
-        </script>
+        </script> --}}
     </body>
         <!-- Footer -->
 <footer class="bg-[#0f1b2e] text-white mt-10">
