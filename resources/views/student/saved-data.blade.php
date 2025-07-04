@@ -15,7 +15,7 @@
                             {{ Str::limit($plan->description ?? 'No description available.', 100) }}
                         </p>
                         <a href="{{ route('student.workout_plans.show', $plan->id) }}"
-                           class="inline-block mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
+                            class="inline-block mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
                             View Plan
                         </a>
                     </div>

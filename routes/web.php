@@ -11,6 +11,8 @@ use App\Http\Controllers\Student\WorkoutPlanController as StudentWorkoutPlanCont
 use App\Http\Controllers\Trainer\TrainerDashboardController;
 use App\Http\Controllers\Trainer\TrainerClientController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TrainerProfileController;
+use App\Http\Controllers\TrainerChatController;
 
 Route::get('/', function () {
     return view('welcome')
@@ -85,6 +87,18 @@ Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/saved-data', [StudentController::class, 'savedData'])
         ->name('student.saved.data');
+});
+
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/trainer/{trainer}/profile', [TrainerProfileController::class, 'show'])
+        ->name('trainer.profile');
+});
+// Route::middleware(['auth', 'role:trainer'])->group(function () {
+//     Route::get('/trainer/chat/{student}', [TrainerChatController::class, 'chat'])->name('chat');
+// });
+Route::middleware(['auth', 'role:trainer'])->group(function () {
+    Route::get('/trainer/chat/{student}', [TrainerChatController::class, 'chat'])
+        ->name('trainer.chat');
 });
 
 // Breeze auth routes

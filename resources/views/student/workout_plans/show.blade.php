@@ -1,8 +1,16 @@
 <x-app-layout>
 <div class="max-w-5xl mx-auto mt-10">
     <h2 class="text-2xl font-bold mb-4">{{ $plan->title }}</h2>
-    <p class="text-gray-700 mb-2">By: {{ $plan->trainer->name }} | Duration: {{ $plan->duration_days }} days</p>
-    <p class="mb-6">{{ $plan->description }}</p>
+    <p class="text-gray-700 mb-2">
+    By:
+    <a href="{{ route('trainer.profile', $plan->trainer->id) }}"
+        class="text-purple-600 hover:underline font-semibold">
+        {{ $plan->trainer->name }}
+    </a>
+    |
+    Duration: {{ $plan->duration_days }} days
+</p>
+
 
     <form action="{{ route('student.workout_plans.save', $plan->id) }}" method="POST" class="mb-6">
         @csrf

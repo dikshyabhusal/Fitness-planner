@@ -37,8 +37,13 @@
                 @endrole
             </div>
 
-            <!-- User Dropdown -->
+            <!-- Notification + User Dropdown -->
             <div class="hidden md:flex items-center space-x-3">
+                
+                <!-- Notification Bell -->
+                <livewire:notification-component />
+
+                <!-- User Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md bg-purple-600 hover:bg-purple-700 text-white transition">
@@ -53,11 +58,12 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             Profile
                         </x-dropdown-link>
+                        
                         @role('student')
-        <x-dropdown-link :href="route('student.saved.data')">
-            View Saved Data
-        </x-dropdown-link>
-    @endrole
+                            <x-dropdown-link :href="route('student.saved.data')">
+                                View Saved Data
+                            </x-dropdown-link>
+                        @endrole
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

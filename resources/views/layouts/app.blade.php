@@ -14,6 +14,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -34,6 +36,15 @@
                 {{ $slot }}
             </main>
         </div>
+        @livewireScripts
+        {{-- <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script> --}}
+        <script>
+            Livewire.on('openChatWith', ({ senderId }) => {
+                // Redirect trainer to chat page with that student
+                window.location.href = `/trainer/chat/${senderId}`;
+            });
+        </script>
+    </body>
         <!-- Footer -->
 <footer class="bg-[#0f1b2e] text-white mt-10">
     <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
