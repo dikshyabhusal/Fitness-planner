@@ -13,16 +13,17 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'content',
-        'is_read', // ✅ Make sure this is in fillable so you can update it
+        'is_read',
+        'file_path',
+        'deleted_by_sender',
+        'deleted_by_receiver',
     ];
 
-    // Relationship: who sent the message
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
 
-    // Relationship: who received the message
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id');
