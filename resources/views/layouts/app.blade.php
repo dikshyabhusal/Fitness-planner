@@ -37,9 +37,12 @@
             </main>
             
         </div>
-        @hasanyrole('trainer|student')
-            @livewire('chat-popup')
-        @endhasanyrole
+        @auth
+            @hasanyrole('trainer|student')
+                @livewire('chat-popup')
+            @endhasanyrole
+        @endauth
+
 
         @livewireScripts
         {{-- <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script> --}}

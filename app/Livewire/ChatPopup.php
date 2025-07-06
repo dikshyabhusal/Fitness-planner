@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire;
 
 use Livewire\Component;
@@ -19,7 +20,8 @@ class ChatPopup extends Component
 
     public function getSelectedUserProperty()
     {
-        return User::find($this->selectedUserId);
+        $user = User::where('id', $this->selectedUserId)->first();
+        return $user instanceof User ? $user : null;
     }
 
     public function closeChat()
@@ -30,6 +32,7 @@ class ChatPopup extends Component
 
     public function render()
     {
+        // dd($this->selectedUser);
         return view('livewire.chat-popup', [
             'selectedUser' => $this->selectedUser,
         ]);

@@ -1,24 +1,25 @@
 <?php
+
 namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Message;
-use Livewire\WithFileUploads;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
 
 class ChatBox extends Component
 {
     use WithFileUploads;
 
-    public User $trainer;
+    public User $chatUser;  // renamed
     public string $message = '';
     public $file;
     public bool $isTyping = false;
 
     protected $rules = [
         'message' => 'nullable|string|max:500',
-        'file' => 'nullable|file|max:10240', // max 10MB
+        'file' => 'nullable|file|max:10240',
     ];
 
     public function sendMessage()
@@ -27,8 +28,8 @@ class ChatBox extends Component
 
         $data = [
             'sender_id' => Auth::id(),
-            'receiver_id' => $this->trainer->id,
-            'content' => $this->message ?? '',
+            'receiver_id' => $this->chatUser->id,
+            'content' => $this->message,
             'is_read' => false,
         ];
 
@@ -45,13 +46,14 @@ class ChatBox extends Component
 
     public function deleteMessage($id)
     {
-        $msg = Message::find($id);
-        if ($msg && $msg->sender_id == Auth::id()) {
-            $msg->update(['deleted_by_sender' => true]);
+        $message = Message::find($id);
+
+        if ($message && $message->sender_id === Auth::id()) {
+            $message->update(['deleted_by_sender' => true]);
         }
     }
 
-    public function updatedMessage($value)
+    public function updatedMessage()
     {
         $this->dispatch('trainerIsTyping');
     }
@@ -60,26 +62,28 @@ class ChatBox extends Component
     {
         $currentUserId = Auth::id();
 
-        if (!$this->trainer || $this->trainer->id === $currentUserId) {
+        if (!$this->chatUser || !$this->chatUser instanceof User || $this->chatUser->id === $currentUserId) {
             return view('livewire.chat-box', ['messages' => []]);
         }
 
         Message::where('receiver_id', $currentUserId)
-            ->where('sender_id', $this->trainer->id)
+            ->where('sender_id', $this->chatUser->id)
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
         $messages = Message::where(function ($q) use ($currentUserId) {
-                $q->where('sender_id', $currentUserId)->where('deleted_by_sender', false)
-                  ->where('receiver_id', $this->trainer->id);
+                $q->where('sender_id', $currentUserId)
+                  ->where('receiver_id', $this->chatUser->id)
+                  ->where('deleted_by_sender', false);
             })
             ->orWhere(function ($q) use ($currentUserId) {
-                $q->where('receiver_id', $currentUserId)->where('deleted_by_receiver', false)
-                  ->where('sender_id', $this->trainer->id);
+                $q->where('receiver_id', $currentUserId)
+                  ->where('sender_id', $this->chatUser->id)
+                  ->where('deleted_by_receiver', false);
             })
             ->orderBy('created_at')
             ->get();
 
-        return view('livewire.chat-box', compact('messages'));
+        return view('livewire.chat-box', ['messages' => $messages]);
     }
 }
