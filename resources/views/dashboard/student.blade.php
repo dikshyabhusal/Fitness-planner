@@ -6,6 +6,15 @@
             
             <h1 class="text-4xl font-extrabold text-center mb-4">Student Dashboard</h1>
             <p class="text-center text-orange-100 mb-10 text-lg">Track your workouts, follow plans, and stay on top of your fitness journey.</p>
+            {{-- <h3>Day {{ $today }}</h3>
+            <ul>
+            <li>
+                <input type="checkbox" wire:model="workout_done"> ✅ Workout Done
+            </li>
+            <li>
+                <input type="checkbox" wire:model="diet_done"> 🍎 Diet Followed
+            </li>
+            </ul> --}}
 
             <!-- Student Dashboard Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -13,7 +22,7 @@
                 <div class="bg-white bg-opacity-10 backdrop-blur rounded-xl p-6 shadow hover:shadow-lg transition">
                     <h2 class="text-xl font-semibold mb-2">My Workout Plans</h2>
                     <p class="text-sm text-orange-100">See the workout routines assigned to you by your trainer.</p>
-                    <a href="#" class="mt-4 inline-block text-orange-200 hover:text-white font-medium">View Plans →</a>
+                    <a href="{{route('student.workout_plans.index')}}" class="mt-4 inline-block text-orange-200 hover:text-white font-medium">View Plans →</a>
                 </div>
 
                 <!-- Diet Plans -->

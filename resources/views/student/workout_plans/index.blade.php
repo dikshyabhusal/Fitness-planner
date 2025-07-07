@@ -5,6 +5,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @foreach($plans as $plan)
         <div class="bg-white p-4 border rounded shadow">
+            
             <h3 class="text-xl font-semibold">{{ $plan->title }}</h3>
             <p class="text-sm text-gray-500">By: {{ $plan->trainer->name }}</p>
             <p>Duration: {{ $plan->duration_days }} days</p>

@@ -13,6 +13,10 @@ use App\Http\Controllers\Trainer\TrainerClientController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainerProfileController;
 use App\Http\Controllers\TrainerChatController;
+use App\Http\Controllers\Student\ProgressReportController;
+use App\Http\Controllers\DietCategoryController;
+use App\Http\Controllers\UserDietPlanController;
+
 
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'));
@@ -73,6 +77,37 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')
 
 // 👀 Trainer Profile (visible to students)
 Route::middleware(['auth', 'role:student'])->get('/trainer/{trainer}/profile', [TrainerProfileController::class, 'show'])->name('trainer.profile');
+
+Route::middleware(['auth', 'role:student'])->get('/student/progress-report/{plan}', [ProgressReportController::class, 'show'])->name('student.progress.report');
+Route::get('/diet-categories', [DietCategoryController::class, 'index'])->name('diet.categories');
+Route::get('/diet-categories/{id}', [DietCategoryController::class, 'show'])->name('diet.category.show');
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/diet/create', [DietCategoryController::class, 'create'])->name('diet.create');
+//     Route::post('/diet/store', [DietCategoryController::class, 'store'])->name('diet.store');
+// });
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/diet/create', [UserDietPlanController::class, 'index'])->name('diet.user.form');
+//     Route::post('/diet/create', [UserDietPlanController::class, 'store'])->name('diet.user.store');
+// });
+// <?php
+
+
+// use App\Http\Controllers\UserDietPlanController;
+
+Route::middleware(['auth'])->group(function () {
+    // Step 1: Select Goal & Target
+    Route::get('/diet/create-step1', [UserDietPlanController::class, 'stepOneForm'])->name('diet.step1.form');
+    Route::post('/diet/create-step1', [UserDietPlanController::class, 'storeStepOne'])->name('diet.step1.store');
+
+    // Step 2: Enter Meal Plan
+    Route::get('/diet/create-step2/{category}', [UserDietPlanController::class, 'stepTwoForm'])->name('diet.step2.form');
+    Route::post('/diet/create-step2/{category}', [UserDietPlanController::class, 'storeStepTwo'])->name('diet.step2.store');
+});
+
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';

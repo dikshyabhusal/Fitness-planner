@@ -17,4 +17,16 @@ class DietPlan extends Model
     {
         return $this->belongsTo(WorkoutPlan::class);
     }
+    public function category()
+    {
+        return $this->belongsTo(DietCategory::class, 'diet_category_id');
+    }
+    
+
+        public function user()
+        {
+            return $this->belongsTo(User::class, 'user_id');
+        }
+
+
 }

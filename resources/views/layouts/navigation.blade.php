@@ -20,9 +20,30 @@
                 <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact*')" class="hover:text-purple-300">
                     Contact Us
                 </x-nav-link>
-                <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile*')" class="hover:text-purple-300">
+                {{-- <x-nav-link :href="route('diet.user.form')" :active="request()->routeIs('diet.user.form')" class="hover:text-purple-300">
+                    My Diet Plan
+                </x-nav-link> --}}
+                <x-nav-link 
+    :href="route('diet.step1.form')" 
+    :active="request()->routeIs('diet.step1.form')" 
+    class="hover:text-purple-300"
+>
+    My Diet Plan
+</x-nav-link>
+
+
+                {{-- <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="hover:text-purple-300">Diet Categories ⌄</button>
+                    <div x-show="open" @click.away="open = false" class="absolute bg-white text-black shadow rounded mt-2 z-50 p-2">
+                        <a href="{{ route('diet.create') }}" class="block px-4 py-1 hover:bg-gray-100">➕ Add Diet Plan</a>
+                        <a href="{{ route('diet.categories') }}" class="block px-4 py-1 hover:bg-gray-100">📂 View Categories</a>
+                    </div>
+                </div> --}}
+
+
+                {{-- <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile*')" class="hover:text-purple-300">
                     Profile
-                </x-nav-link>
+                </x-nav-link> --}}
 
                 @role('trainer')
                     <x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">

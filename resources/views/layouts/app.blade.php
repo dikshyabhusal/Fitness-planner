@@ -45,6 +45,8 @@
 
 
         @livewireScripts
+        @stack('scripts')
+
         {{-- <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script> --}}
         {{-- <script>
             Livewire.on('openChatWith', ({ senderId }) => {

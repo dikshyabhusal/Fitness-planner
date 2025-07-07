@@ -19,7 +19,13 @@ class WorkoutPlanController extends Controller
 
     public function show($id)
     {
-        $plan = WorkoutPlan::with(['trainer', 'days'])->findOrFail($id);
+        // $plan = WorkoutPlan::with(['trainer', 'days'])->findOrFail($id);
+        $plan = WorkoutPlan::with([
+        'trainer',
+        'days' => function ($query) {
+            $query->orderBy('day_number')->limit(6); // Limit to 6 days
+        }
+    ])->findOrFail($id);
 
         // Load the diet plan grouped by day_number (1-7)
         $diet = DietPlan::where('workout_plan_id', $id)
