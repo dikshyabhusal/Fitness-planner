@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DietCategory extends Model
 {
-    protected $fillable = ['goal', 'target_area'];
+    protected $fillable = ['goal', 'target_area','image',];
 
     public function dietPlans()
     {

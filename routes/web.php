@@ -16,7 +16,7 @@ use App\Http\Controllers\TrainerChatController;
 use App\Http\Controllers\Student\ProgressReportController;
 use App\Http\Controllers\DietCategoryController;
 use App\Http\Controllers\UserDietPlanController;
-
+use App\Http\Controllers\RecommendationController;
 
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'));
@@ -106,6 +106,15 @@ Route::middleware(['auth'])->group(function () {
     // Step 2: Enter Meal Plan
     Route::get('/diet/create-step2/{category}', [UserDietPlanController::class, 'stepTwoForm'])->name('diet.step2.form');
     Route::post('/diet/create-step2/{category}', [UserDietPlanController::class, 'storeStepTwo'])->name('diet.step2.store');
+});
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/recommend-diet', [RecommendationController::class, 'form'])->name('diet.recommend.form');
+    Route::post('/recommend-diet', [RecommendationController::class, 'recommend'])->name('diet.recommend');
+    Route::get('/diet-plan/{category_id}', [RecommendationController::class, 'show'])->name('diet.recommend.show');
+    Route::post('/diet/{id}/bookmark', [RecommendationController::class, 'bookmark'])->middleware('auth')->name('diet.bookmark');
+
 });
 
 

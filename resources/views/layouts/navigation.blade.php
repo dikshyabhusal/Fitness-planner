@@ -24,12 +24,16 @@
                     My Diet Plan
                 </x-nav-link> --}}
                 <x-nav-link 
-    :href="route('diet.step1.form')" 
-    :active="request()->routeIs('diet.step1.form')" 
-    class="hover:text-purple-300"
->
-    My Diet Plan
-</x-nav-link>
+                    :href="route('diet.step1.form')" 
+                    :active="request()->routeIs('diet.step1.form')" 
+                    class="hover:text-purple-300"
+                >
+                    My Diet Plan
+                </x-nav-link>
+                <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300">
+                    Recommend Diet
+                </x-nav-link>
+
 
 
                 {{-- <div x-data="{ open: false }" class="relative">
