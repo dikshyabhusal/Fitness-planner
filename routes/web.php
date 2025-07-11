@@ -17,7 +17,7 @@ use App\Http\Controllers\Student\ProgressReportController;
 use App\Http\Controllers\DietCategoryController;
 use App\Http\Controllers\UserDietPlanController;
 use App\Http\Controllers\RecommendationController;
-
+use App\Http\Controllers\BMIController;
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'));
 Route::get('/about', [AboutController::class, 'about'])->name('about');
@@ -117,6 +117,26 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+
+Route::prefix('calculator')->group(function () {
+    Route::get('/bmi', [BMIController::class, 'bmi'])->name('calculator.bmi');
+    Route::post('/bmi', [BMIController::class, 'bmiCalculate'])->name('calculator.bmi.calculate');
+
+    Route::get('/body-fat', [BMIController::class, 'bodyFat'])->name('calculator.bodyFat');
+    Route::post('/body-fat', [BMIController::class, 'bodyFatCalculate'])->name('calculator.bodyFat.calculate');
+
+    Route::get('/calories-burned', [BMIController::class, 'caloriesBurned'])->name('calculator.caloriesBurned');
+    Route::post('/calories-burned', [BMIController::class, 'caloriesBurnedCalculate'])->name('calculator.caloriesBurned.calculate');
+
+    Route::get('/daily-calorie', [BMIController::class, 'dailyCalorie'])->name('calculator.dailyCalorie');
+    Route::post('/daily-calorie', [BMIController::class, 'dailyCalorieCalculate'])->name('calculator.dailyCalorie.calculate');
+
+    Route::get('/one-rep-max', [BMIController::class, 'oneRepMax'])->name('calculator.oneRepMax');
+    Route::post('/one-rep-max', [BMIController::class, 'oneRepMaxCalculate'])->name('calculator.oneRepMax.calculate');
+
+    Route::get('/grip-strength', [BMIController::class, 'gripStrength'])->name('calculator.gripStrength');
+    Route::post('/grip-strength', [BMIController::class, 'gripStrengthCalculate'])->name('calculator.gripStrength.calculate');
+});
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';

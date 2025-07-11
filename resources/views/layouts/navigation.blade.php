@@ -33,6 +33,51 @@
                 <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300">
                     Recommend Diet
                 </x-nav-link>
+                <!-- Calculations Dropdown -->
+                    <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
+                        <a href="#" class="hover:text-purple-600" @click.prevent="open = !open">Calculations</a>
+
+                    <ul
+                        x-show="open"
+                        x-transition
+                        class="absolute bg-white border shadow rounded mt-2 z-10 text-sm text-gray-800 w-64"
+                        @click.away="open = false"
+                    >
+                        <li>
+                            <x-nav-link :href="route('calculator.bmi')" :active="request()->routeIs('calculator.bmi')">
+                                Body Mass Index (BMI)
+                            </x-nav-link>
+                        </li>
+                        <li>
+                            <x-nav-link :href="route('calculator.bodyFat')" :active="request()->routeIs('calculator.bodyFat')">
+                                Body Fat Index
+                            </x-nav-link>
+                        </li>
+                        <li>
+                            <x-nav-link :href="route('calculator.caloriesBurned')" :active="request()->routeIs('calculator.caloriesBurned')">
+                                Calories Burned
+                            </x-nav-link>
+                        </li>
+                        <li>
+                            <x-nav-link :href="route('calculator.dailyCalorie')" :active="request()->routeIs('calculator.dailyCalorie')">
+                                Daily Calorie Calculator
+                            </x-nav-link>
+                        </li>
+                        <li>
+                            <x-nav-link :href="route('calculator.oneRepMax')" :active="request()->routeIs('calculator.oneRepMax')">
+                                One Rep Max Calculator
+                            </x-nav-link>
+                        </li>
+                        <li>
+                            <x-nav-link :href="route('calculator.gripStrength')" :active="request()->routeIs('calculator.gripStrength')">
+                                Grip Strength Calculator
+                            </x-nav-link>
+                        </li>
+                        </ul>
+                    </li>
+
+
+
 
 
 
