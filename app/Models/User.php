@@ -22,6 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'gender',
+        'age',
+        'height',
+        'weight',
+        'goal',
+        'activity_level',
+        'daily_calorie_need',
     ];
 
     /**

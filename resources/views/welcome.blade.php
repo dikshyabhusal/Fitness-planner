@@ -49,21 +49,25 @@
                         $categories = [
                             [
                                 'title' => 'Bodybuilding',
+                                'href' => route('register') ,
                                 'image' => asset('storage/welcome/body.jpeg'),
                                 'slug'  => 'bodybuilding',
                             ],
                             [
                                 'title' => 'Fitness',
+                                'href' => route('register') ,
                                 'image' => asset('storage/welcome/fitness.jpeg'),
                                 'slug'  => 'fitness',
                             ],
                             [
                                 'title' => 'Cardio',
+                                'href' => route('register') ,
                                 'image' => asset('storage/welcome/images.jpeg'),
                                 'slug'  => 'cardio',
                             ],
                             [
                                 'title' => 'Pilates',
+                                'href' => route('register') ,
                                 'image' => asset('storage/welcome/pilates.jpeg'),
                                 'slug'  => 'pilates',
                             ],
@@ -88,9 +92,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @php
                         $plans = [
-                            ['title' => '6-Month Bodybuilding Program', 'goal' => 'Build Muscle'],
-                            ['title' => '3x5 Full Body Strength', 'goal' => 'Build Strength'],
-                            ['title' => 'Body Toning for Women', 'goal' => 'Build Muscle, Lose Fat'],
+                            ['title' => '6-Month Bodybuilding Program', 'goal' => 'Build Muscle','href' => route('register') ,],
+                            ['title' => '3x5 Full Body Strength', 'goal' => 'Build Strength','href' => route('register') ,],
+                            ['title' => 'Body Toning for Women', 'goal' => 'Build Muscle, Lose Fat','href' => route('register') ,],
                         ];
                     @endphp
                     @foreach($plans as $plan)
