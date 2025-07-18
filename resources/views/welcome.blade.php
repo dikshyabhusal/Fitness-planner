@@ -114,10 +114,6 @@
             </section>
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-[#0f1b2e] py-8 text-center text-sm text-gray-500">
-            <p>&copy; {{ date('Y') }} FitLife Planner. All rights reserved.</p>
-            <p>Contact us: <a href="mailto:mail@fitnessprogramer.com" class="underline hover:text-purple-300">mail@fitnessprogramer.com</a></p>
-        </footer>
+
     </div>
 </x-guest-layout>

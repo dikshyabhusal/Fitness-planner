@@ -75,9 +75,10 @@
                 <li><a href="{{ route('profile.edit') }}" class="hover:text-purple-300">Profile</a></li>
                 <li><a href="{{ route('login') }}" class="hover:text-purple-300">Login</a></li>
                 <li><a href="{{ route('register') }}" class="hover:text-purple-300">Register</a></li>
+                <li><a href="{{ route('privacy.policy') }}" class="hover:text-purple-300">Privacy Policy</a></li>
             </ul>
         </div>
-
+        
         <!-- Contact -->
         <div>
             <h2 class="text-lg font-semibold text-purple-400 mb-3">Contact Us</h2>

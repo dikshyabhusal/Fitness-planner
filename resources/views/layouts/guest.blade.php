@@ -20,12 +20,12 @@
         <div class="flex justify-between items-center py-4">
             <!-- Logo -->
             <div class="text-2xl font-extrabold text-purple-400">
-                <a href="{{ route('dashboard') }}">Fitness<span class="text-white">Planner</span></a>
+                <a href="{{ route('home') }}">Fitness<span class="text-white">Planner</span></a>
             </div>
 
             <!-- Nav Links -->
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
-                <a href="{{ route('dashboard') }}" class="hover:text-purple-300 transition">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-purple-300 transition">Home</a>
                 <a href="{{ route('about') }}" class="hover:text-purple-300 transition">About</a>
                 <a href="#categories" class="hover:text-purple-300 transition">Categories</a>
                 <a href="#plans" class="hover:text-purple-300 transition">Plans</a>
@@ -83,4 +83,42 @@
             </main>
         </div>
     </body>
+    <footer class="bg-[#0f1b2e] text-white mt-10">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+        <!-- About -->
+        <div>
+            <h2 class="text-xl font-semibold text-purple-400 mb-3">Fitness Planner</h2>
+            <p class="text-gray-400 text-sm">
+                Your personal workout planner – create routines, track progress, and meet your fitness goals. Designed for beginners to pros.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+            <h2 class="text-lg font-semibold text-purple-400 mb-3">Quick Links</h2>
+            <ul class="space-y-2 text-sm text-gray-300">
+                <li><a href="{{ route('dashboard') }}" class="hover:text-purple-300">Dashboard</a></li>
+                <li><a href="{{ route('about') }}" class="hover:text-purple-300">About</a></li>
+                <li><a href="{{ route('profile.edit') }}" class="hover:text-purple-300">Profile</a></li>
+                <li><a href="{{ route('login') }}" class="hover:text-purple-300">Login</a></li>
+                <li><a href="{{ route('register') }}" class="hover:text-purple-300">Register</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+            <h2 class="text-lg font-semibold text-purple-400 mb-3">Contact Us</h2>
+            <p class="text-gray-300 text-sm">Email: <a href="mailto:mail@fitnessprogramer.com" class="underline hover:text-purple-300">mail@fitnessprogramer.com</a></p>
+            <p class="text-gray-300 text-sm mt-2">Follow us on:</p>
+            <div class="flex space-x-4 mt-2">
+                <a href="#" class="hover:text-purple-300"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="hover:text-purple-300"><i class="fab fa-instagram"></i> Instagram</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center text-sm text-gray-500 border-t border-gray-700 py-4">
+        &copy; {{ date('Y') }} Fitness Planner. All rights reserved.
+    </div>
+</footer>
 </html>

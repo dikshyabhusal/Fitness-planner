@@ -72,6 +72,32 @@
                 📊 View Full Progress Report
             </a>
         </div>
+        <!-- Leave a Review Section -->
+@if(auth()->user()->hasRole('student'))
+    <form action="{{ route('reviews.store') }}" method="POST" class="mt-6">
+        @csrf
+        <input type="hidden" name="workout_plan_id" value="{{ $plan->id }}">
+        <label class="block mb-1 font-medium">Rating</label>
+        <select name="rating" class="border p-2 rounded w-full mb-4">
+            @for($i = 5; $i >= 1; $i--)
+                <option value="{{ $i }}">{{ $i }} Stars</option>
+            @endfor
+        </select>
+
+        <textarea name="comment" rows="3" placeholder="Write your feedback" class="border p-2 rounded w-full mb-4"></textarea>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Submit Review</button>
+    </form>
+@endif
+
+<!-- Show Reviews -->
+<h3 class="text-xl font-semibold mt-8">Student Reviews</h3>
+@foreach($plan->reviews as $review)
+    <div class="border rounded p-4 mt-4">
+        <p><strong>{{ $review->student->name }}</strong> rated {{ $review->rating }}⭐</p>
+        <p class="text-gray-600 mt-2">{{ $review->comment }}</p>
+    </div>
+@endforeach
+
 
     </div>
 </x-app-layout>

@@ -130,7 +130,7 @@ class WorkoutPlanController extends Controller
     $duration = $request->duration_days;
 
     // Re-save workout days – repeat 7-day base plan
-    for ($i = 1; $i <= $duration; $i++) {
+    for ($i = 1; $i <= min($duration, 6); $i++) {
         $repeatIndex = ($i - 1) % 7 + 1;
         $dayData = $request->workout_days[$repeatIndex];
 

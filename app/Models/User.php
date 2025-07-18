@@ -61,6 +61,10 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(WorkoutPlan::class, 'saved_workout_plans', 'student_id', 'workout_plan_id');
 }
+public function receivedReviews()
+{
+    return $this->hasMany(Review::class, 'trainer_id');
+}
 
 
 }

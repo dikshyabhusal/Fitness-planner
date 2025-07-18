@@ -21,5 +21,9 @@ public function days()
 public function savedByUsers() {
     return $this->belongsToMany(User::class, 'saved_workout_plans');
 }
+public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
 
 }

@@ -18,8 +18,12 @@ use App\Http\Controllers\DietCategoryController;
 use App\Http\Controllers\UserDietPlanController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\BMIController;
+use App\Http\Controllers\ExerciseVideoController;
+use App\Http\Controllers\ReviewController;
+
 // 🏠 Public Pages
-Route::get('/', fn () => view('welcome'));
+Route::get('/', fn () => view('welcome'))->name('home');
+
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/aboutauth', [AboutController::class, 'aboutauth'])->name('aboutauth');
 Route::get('/contact', [AboutController::class, 'show'])->name('contact.show');
@@ -137,6 +141,16 @@ Route::prefix('calculator')->group(function () {
     Route::get('/grip-strength', [BMIController::class, 'gripStrength'])->name('calculator.gripStrength');
     Route::post('/grip-strength', [BMIController::class, 'gripStrengthCalculate'])->name('calculator.gripStrength.calculate');
 });
+Route::middleware(['auth', 'role:trainer'])->group(function () {
+    Route::get('/videos/create', [ExerciseVideoController::class, 'create'])->name('videos.create');
+    Route::post('/videos', [ExerciseVideoController::class, 'store'])->name('videos.store');
+});
+
+Route::middleware(['auth','role:student'])->group(function () {
+    Route::get('/videos', [ExerciseVideoController::class, 'index'])->name('videos.index');
+});
+Route::middleware(['auth', 'role:student'])->post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::view('/privacy-policy', 'privacy')->name('privacy.policy');
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';
