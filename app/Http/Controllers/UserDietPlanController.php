@@ -15,29 +15,29 @@ class UserDietPlanController extends Controller
     }
 
     public function storeStepOne(Request $request)
-    {
-        $request->validate([
-            'goal' => 'required|string',
-            'target_area' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
+{
+    $request->validate([
+        'goal' => 'required|string',
+        'target_area' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        if ($request->hasFile('image')) {
+    $imagePath = null; // ✅ fix: initialize to avoid undefined variable
+
+    if ($request->hasFile('image')) {
         $file = $request->file('image');
         $filename = time() . '_' . $file->getClientOriginalName();
         $imagePath = $file->storeAs('diet_images', $filename, 'public');
-        }
-
-        $category = DietCategory::create([
-            'goal' => $request->goal,
-            'target_area' => $request->target_area,
-            'image' => $imagePath,
-        ]);
-        // dd($request->file('image'), $imagePath);
-
-
-        return redirect()->route('diet.step2.form', $category->id);
     }
+
+    $category = DietCategory::create([
+        'goal' => $request->goal,
+        'target_area' => $request->target_area,
+        'image' => $imagePath,
+    ]);
+
+    return redirect()->route('diet.step2.form', $category->id);
+}
 
     public function stepTwoForm(DietCategory $category)
     {

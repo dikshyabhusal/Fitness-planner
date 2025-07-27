@@ -15,34 +15,42 @@
 
             <!-- Desktop Links -->
             <div class="hidden md:flex space-x-6 items-center text-sm font-medium">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="hover:text-purple-300">Dashboard</x-nav-link>
-                <x-nav-link :href="route('aboutauth')" :active="request()->routeIs('aboutauth*')" class="hover:text-purple-300">About</x-nav-link>
-                <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact*')" class="hover:text-purple-300">Contact</x-nav-link>
-                <x-nav-link :href="route('diet.step1.form')" :active="request()->routeIs('diet.step1.form')" class="hover:text-purple-300">My Diet Plan</x-nav-link>
-                <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300">Recommend Diet</x-nav-link>
-
-                <!-- Calculations Dropdown -->
+                
+                @role('student')
+                <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300">RECOMMEND DIET</x-nav-link>
+                @endrole
+                @role('trainer')
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
-                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer">Calculations</a>
+                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer">CREATE</a>
                     <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
-                        <li><x-nav-link :href="route('calculator.bmi')" :active="request()->routeIs('calculator.bmi')">Body Mass Index (BMI)</x-nav-link></li>
-                        <li><x-nav-link :href="route('calculator.bodyFat')" :active="request()->routeIs('calculator.bodyFat')">Body Fat Index</x-nav-link></li>
-                        <li><x-nav-link :href="route('calculator.caloriesBurned')" :active="request()->routeIs('calculator.caloriesBurned')">Calories Burned</x-nav-link></li>
-                        <li><x-nav-link :href="route('calculator.dailyCalorie')" :active="request()->routeIs('calculator.dailyCalorie')">Daily Calorie Calculator</x-nav-link></li>
-                        <li><x-nav-link :href="route('calculator.oneRepMax')" :active="request()->routeIs('calculator.oneRepMax')">One Rep Max Calculator</x-nav-link></li>
-                        <li><x-nav-link :href="route('calculator.gripStrength')" :active="request()->routeIs('calculator.gripStrength')">Grip Strength Calculator</x-nav-link></li>
+                        <li><x-nav-link :href="route('diet.step1.form')" :active="request()->routeIs('diet.step1.form')">CREATE DIET PLAN</x-nav-link></li>
+                        <li><x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">CREATE WORKOUT PLAN</x-nav-link></li>
+                        <li><x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">CREATE VIDEO</x-nav-link></li>
                     </ul>
                 </li>
-
-                @role('trainer')
-                    <x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">Workout Plans</x-nav-link>
-                    <x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">Upload Video</x-nav-link>
                 @endrole
+                @role('student')
+                <!-- Calculations Dropdown -->
+                <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
+                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer">CALCULATE</a>
+                    <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
+                        <li><x-nav-link :href="route('calculator.bmi')" :active="request()->routeIs('calculator.bmi')">BODY MASS INDEX (BMI)</x-nav-link></li>
+                        <li><x-nav-link :href="route('calculator.bodyFat')" :active="request()->routeIs('calculator.bodyFat')">BODY FAT INDEX (BFI)</x-nav-link></li>
+                        <li><x-nav-link :href="route('calculator.caloriesBurned')" :active="request()->routeIs('calculator.caloriesBurned')">CALORIES BURNED</x-nav-link></li>
+                        <li><x-nav-link :href="route('calculator.dailyCalorie')" :active="request()->routeIs('calculator.dailyCalorie')">DAILY CALORIE CALCULATOR</x-nav-link></li>
+                        <li><x-nav-link :href="route('calculator.oneRepMax')" :active="request()->routeIs('calculator.oneRepMax')">ONE REP MAX CALCULATOR</x-nav-link></li>
+                        <li><x-nav-link :href="route('calculator.gripStrength')" :active="request()->routeIs('calculator.gripStrength')">GRIP STRENGTH CALCULATOR</x-nav-link></li>
+                    </ul>
+                </li>
+                @endrole
+
+                
 
                 @role('student')
-                    <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300">View Workouts</x-nav-link>
-                    <x-nav-link :href="route('videos.index')" :active="request()->routeIs('videos.index*')" class="hover:text-purple-300">Watch Video</x-nav-link>
+                    <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300">VIEW WORKOUTS</x-nav-link>
+                    <x-nav-link :href="route('videos.index')" :active="request()->routeIs('videos.index*')" class="hover:text-purple-300">WATCH VIDEOS</x-nav-link>
                 @endrole
+                <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact*')" class="hover:text-purple-300">CONTACT US</x-nav-link>
             </div>
 
             <!-- Notifications & User Dropdown -->
@@ -58,13 +66,13 @@
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">Profile</x-dropdown-link>
+                        <x-dropdown-link :href="route('profile.edit')">PROFILE</x-dropdown-link>
                         @role('student')
-                            <x-dropdown-link :href="route('student.saved.data')">View Saved Data</x-dropdown-link>
+                            <x-dropdown-link :href="route('student.saved.data')">VIEW SAVED DATA</x-dropdown-link>
                         @endrole
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">Log Out</x-dropdown-link>
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">LOG OUT</x-dropdown-link>
                         </form>
                     </x-slot>
                 </x-dropdown>

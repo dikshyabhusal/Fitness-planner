@@ -20,7 +20,9 @@ use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\BMIController;
 use App\Http\Controllers\ExerciseVideoController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\AIChatController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\TrainerProgressController;
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'))->name('home');
 
@@ -151,6 +153,26 @@ Route::middleware(['auth','role:student'])->group(function () {
 });
 Route::middleware(['auth', 'role:student'])->post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::view('/privacy-policy', 'privacy')->name('privacy.policy');
+
+
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
+    Route::get('/workouts', [AdminDashboardController::class, 'workouts'])->name('workouts');
+    Route::get('/diets', [AdminDashboardController::class, 'diets'])->name('diets');
+    Route::get('/reviews', [AdminDashboardController::class, 'reviews'])->name('reviews');
+    Route::get('/contacts/view', [AdminDashboardController::class, 'contacts'])->name('contacts');
+    Route::put('/users/{id}/role', [AdminDashboardController::class, 'updateRole'])->name('updateRole');
+});
+
+Route::middleware(['auth', 'role:trainer'])->group(function () {
+    Route::get('/trainer/progress', [TrainerProgressController::class, 'index'])->name('trainer.progress.overview');
+    Route::get('/trainer/progress/{student}', [TrainerProgressController::class, 'show'])->name('trainer.progress.student');
+});
+
+
+
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';

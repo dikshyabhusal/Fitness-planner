@@ -1,63 +1,73 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gradient-to-b from-[#0f2027] via-[#203a43] to-[#2c5364] py-16 px-6 text-white">
+    <div class="min-h-screen bg-gradient-to-b from-[#141e30] via-[#243b55] to-[#0f2027] py-16 px-6 text-white">
 
-        <div class="max-w-7xl mx-auto text-center mb-14">
-            <h1 class="text-5xl font-extrabold tracking-tight mb-4">🎯 Welcome Back, Champion!</h1>
-            <p class="text-gray-200 text-lg">Your fitness journey starts here. Access your routines, meals, and track your victories — all in one place.</p>
+        <!-- Header -->
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h1 class="text-5xl font-extrabold tracking-tight mb-4 text-purple-300 animate__animated animate__fadeInDown">
+                🚀 Welcome Back, {{ auth()->user()->name }}!
+            </h1>
+            <p class="text-lg text-gray-300 animate__animated animate__fadeInUp">
+                Track your fitness journey, access exclusive plans, and level up with every session.
+            </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <!-- Feature Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
             @php
                 $features = [
                     [
-                        'title' => '🏋️ Workout Plans',
-                        'desc' => 'Tailored exercises and weekly routines from your trainer.',
-                        'link' => route('student.workout_plans.index'),
+                        'title' => '🏋️ My Workout Plans',
+                        'desc' => 'View the customized workout routines assigned to you.',
+                        'link' => route('videos.index'),
                         'icon' => 'https://cdn-icons-png.flaticon.com/512/833/833472.png',
                     ],
                     [
-                        'title' => '🥗 Diet Guidance',
-                        'desc' => 'Track your daily nutrition plans and meal macros.',
-                        'link' => '#',
+                        'title' => '🥗 My Diet Plan',
+                        'desc' => 'Follow your personalized meal schedule to meet your goals.',
+                        'link' => route('videos.index'),
                         'icon' => 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png',
                     ],
                     [
-                        'title' => '📊 Progress Tracker',
-                        'desc' => 'Visualize your weight loss, strength gains, and more.',
-                        'link' => '#',
-                        'icon' => 'https://cdn-icons-png.flaticon.com/512/1828/1828919.png',
+                        'title' => '🎥 Watch Workout Videos',
+                        'desc' => 'Learn the proper form and techniques from our video library.',
+                        'link' => route('videos.index'),
+                        'icon' => 'https://cdn-icons-png.flaticon.com/512/2910/2910768.png',
                     ],
                     [
-                        'title' => '📩 Trainer Messages',
-                        'desc' => 'Chat or read messages sent by your assigned trainer.',
-                        'link' => '#',
-                        'icon' => 'https://cdn-icons-png.flaticon.com/512/893/893257.png',
+                        'title' => '❤️ Saved Workout Plans',
+                        'desc' => 'View workout plans you bookmarked for future use.',
+                        'link' => route('videos.index'),
+                        'icon' => 'https://cdn-icons-png.flaticon.com/512/2589/2589175.png',
                     ],
                     [
-                        'title' => '📅 Calendar View',
-                        'desc' => 'Mark completed workouts and upcoming sessions.',
-                        'link' => '#',
-                        'icon' => 'https://cdn-icons-png.flaticon.com/512/747/747310.png',
+                        'title' => '🍽️ Saved Diet Plans',
+                        'desc' => 'Find the meal plans you saved for easy access.',
+                        'link' => route('videos.index'),
+                        'icon' => 'https://cdn-icons-png.flaticon.com/512/2921/2921823.png',
                     ],
                     [
-                        'title' => '🧠 AI Recommendations',
-                        'desc' => 'Plans and meals curated based on your habits.',
-                        'link' => '#',
-                        'icon' => 'https://cdn-icons-png.flaticon.com/512/3103/3103446.png',
+                        'title' => '👤 My Trainer',
+                        'desc' => 'See trainer details, ratings, and get in touch.',
+                        'link' => route('videos.index'),
+                        'icon' => 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
                     ],
                 ];
             @endphp
 
             @foreach ($features as $item)
-                <div class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                    <div class="flex flex-col items-center">
+                <div class="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-3xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="flex flex-col items-center text-center">
                         <img src="{{ $item['icon'] }}" alt="{{ $item['title'] }} Icon" class="w-16 h-16 mb-4">
-                        <h3 class="text-xl font-bold mb-2 text-white">{{ $item['title'] }}</h3>
+                        <h3 class="text-xl font-bold text-purple-200 mb-2">{{ $item['title'] }}</h3>
                         <p class="text-sm text-gray-300 mb-4">{{ $item['desc'] }}</p>
-                        <a href="{{ $item['link'] }}" class="inline-block bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition">Go</a>
+                        <a href="{{ $item['link'] }}" class="bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition">Explore</a>
                     </div>
                 </div>
             @endforeach
         </div>
+        
     </div>
+
+    <!-- Animate.css CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </x-app-layout>

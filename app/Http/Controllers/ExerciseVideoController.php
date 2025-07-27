@@ -49,6 +49,7 @@ class ExerciseVideoController extends Controller
             'goal' => $request->goal,
             'duration' => $request->duration,
         ]);
+        dd($videos);
 
         return redirect()->route('videos.index')->with('success', 'Video uploaded successfully.');
     }

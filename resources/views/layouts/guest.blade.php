@@ -27,9 +27,9 @@
             <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <a href="{{ route('home') }}" class="hover:text-purple-300 transition">Home</a>
                 <a href="{{ route('about') }}" class="hover:text-purple-300 transition">About</a>
-                <a href="#categories" class="hover:text-purple-300 transition">Categories</a>
-                <a href="#plans" class="hover:text-purple-300 transition">Plans</a>
-                <a href="#contact" class="hover:text-purple-300 transition">Contact</a>
+                <a href="{{ route('register') }}" class="hover:text-purple-300 transition">Categories</a>
+                <a href="{{ route('register') }}" class="hover:text-purple-300 transition">Plans</a>
+                
             </nav>
 
             <!-- Auth Buttons -->
