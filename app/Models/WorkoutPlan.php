@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WorkoutPlan extends Model
 {
     protected $fillable = [
-        'trainer_id', 'title', 'description', 'gender', 'duration_days',
+        'trainer_id', 'title', 'description', 'gender', 'duration_days','image',
     ];
     public function trainer()
 {

@@ -31,6 +31,19 @@
                    class="block px-4 py-2 rounded-lg hover:bg-purple-100 text-gray-700 transition">
                     🥗 Diet Plans
                 </a>
+                <a href="{{ route('admin.products.create') }}"
+                class="block px-4 py-2 rounded-lg hover:bg-purple-100 text-gray-700 transition">
+                    🛒 Add Product
+                </a>
+                <a href="{{ route('admin.products.index') }}"
+                class="block px-4 py-2 rounded-lg hover:bg-purple-100 text-gray-700 transition">
+                    📦 Manage Products
+                </a>
+                <a href="{{ route('admin.orders.index') }}"
+                class="block px-4 py-2 rounded-lg hover:bg-purple-100 text-gray-700 transition">
+                    📦 Manage Orders
+                </a>
+
                 <a href="{{ route('admin.reviews') }}"
                    class="block px-4 py-2 rounded-lg hover:bg-purple-100 text-gray-700 transition">
                     💬 Feedback & Reviews

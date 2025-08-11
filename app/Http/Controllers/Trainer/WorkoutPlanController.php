@@ -30,21 +30,34 @@ class WorkoutPlanController extends Controller
             'gender' => 'required|in:male,female,both',
             'duration_days' => 'required|integer|min:1',
             'workout_days' => 'required|array',
-            'diet' => 'required|array'
+            'diet' => 'required|array',
+            'image' => 'nullable|image|max:2048',
         ]);
+        // dd($request->file('image'));
+        $imagePath = null; // ✅ fix: initialize to avoid undefined variable
 
-        // Create workout plan
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $imagePath = $file->storeAs('workout_images', $filename, 'public');
+    }
+
+        // $imagePath = null;
+        // if ($request->hasFile('image')) {
+        //     $imagePath = $request->file('image')->store('workout_images', 'public');
+        // }
+
         $plan = WorkoutPlan::create([
             'trainer_id' => Auth::id(),
             'title' => $request->title,
             'description' => $request->description,
             'gender' => $request->gender,
             'duration_days' => $request->duration_days,
+            'image' => $imagePath,
         ]);
 
         $duration = $request->duration_days;
 
-        // Save workout days – repeat 7-day cycle
         for ($i = 1; $i <= $duration; $i++) {
             $repeatIndex = ($i - 1) % 7 + 1;
             $dayData = $request->workout_days[$repeatIndex];
@@ -57,7 +70,6 @@ class WorkoutPlanController extends Controller
             ]);
         }
 
-        // Save 7-day diet plan (breakfast, lunch, dinner per day)
         foreach ($request->diet as $day => $meals) {
             foreach (['breakfast', 'lunch', 'dinner'] as $meal_time) {
                 DietPlan::create([
@@ -69,7 +81,7 @@ class WorkoutPlanController extends Controller
             }
         }
 
-        return redirect()->route('trainer.workout_plans.index')->with('success', 'Workout plan created successfully with exercises and diet!');
+        return redirect()->route('trainer.workout_plans.index')->with('success', 'Workout plan created successfully!');
     }
 
     public function show($id)
@@ -87,91 +99,74 @@ class WorkoutPlanController extends Controller
         return view('trainer.workout_plans.edit', compact('plan', 'diet'));
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $plan = WorkoutPlan::findOrFail($id);
-
-    //     $plan->update([
-    //         'title' => $request->title,
-    //         'description' => $request->description,
-    //         'gender' => $request->gender,
-    //         'duration_days' => $request->duration_days,
-    //     ]);
-
-    //     // You can optionally update workout_days and diet_plans here
-
-    //     return redirect()->route('trainer.workout_plans.show', $plan->id)->with('success', 'Workout Plan updated!');
-    // }
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'gender' => 'required|in:male,female,both',
-        'duration_days' => 'required|integer|min:1',
-        'workout_days' => 'required|array',
-        'diet' => 'required|array'
-    ]);
-
-    $plan = WorkoutPlan::findOrFail($id);
-
-    // Update basic plan info
-    $plan->update([
-        'title' => $request->title,
-        'description' => $request->description,
-        'gender' => $request->gender,
-        'duration_days' => $request->duration_days,
-    ]);
-
-    // Delete existing workout_days and diet_plans for clean update
-    WorkoutDay::where('workout_plan_id', $plan->id)->delete();
-    DietPlan::where('workout_plan_id', $plan->id)->delete();
-
-    $duration = $request->duration_days;
-
-    // Re-save workout days – repeat 7-day base plan
-    for ($i = 1; $i <= min($duration, 6); $i++) {
-        $repeatIndex = ($i - 1) % 7 + 1;
-        $dayData = $request->workout_days[$repeatIndex];
-
-        WorkoutDay::create([
-            'workout_plan_id' => $plan->id,
-            'day_number' => $i,
-            'title' => $dayData['title'],
-            'description' => $dayData['description'] ?? null,
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'gender' => 'required|in:male,female,both',
+            'duration_days' => 'required|integer|min:1',
+            'workout_days' => 'required|array',
+            'diet' => 'required|array',
+            'image' => 'nullable|image|max:2048',
         ]);
-    }
 
-    // Re-save 7-day diet plan (3 meals per day)
-    foreach ($request->diet as $day => $meals) {
-        foreach (['breakfast', 'lunch', 'dinner'] as $meal_time) {
-            DietPlan::create([
+        $plan = WorkoutPlan::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('workout_images', 'public');
+            $plan->image = $imagePath;
+            $plan->save();
+        }
+
+        $plan->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'gender' => $request->gender,
+            'duration_days' => $request->duration_days,
+        ]);
+
+        WorkoutDay::where('workout_plan_id', $plan->id)->delete();
+        DietPlan::where('workout_plan_id', $plan->id)->delete();
+
+        $duration = $request->duration_days;
+
+        for ($i = 1; $i <= $duration; $i++) {
+            $repeatIndex = ($i - 1) % 7 + 1;
+            $dayData = $request->workout_days[$repeatIndex];
+
+            WorkoutDay::create([
                 'workout_plan_id' => $plan->id,
-                'day_number' => $day,
-                'meal_time' => $meal_time,
-                'meal' => $meals[$meal_time] ?? '',
+                'day_number' => $i,
+                'title' => $dayData['title'],
+                'description' => $dayData['description'] ?? null,
             ]);
         }
+
+        foreach ($request->diet as $day => $meals) {
+            foreach (['breakfast', 'lunch', 'dinner'] as $meal_time) {
+                DietPlan::create([
+                    'workout_plan_id' => $plan->id,
+                    'day_number' => $day,
+                    'meal_time' => $meal_time,
+                    'meal' => $meals[$meal_time] ?? '',
+                ]);
+            }
+        }
+
+        return redirect()->route('trainer.workout_plans.show', $plan->id)->with('success', 'Workout Plan updated successfully!');
     }
 
-    return redirect()->route('trainer.workout_plans.show', $plan->id)
-        ->with('success', 'Workout Plan updated successfully!');
-}
+    public function destroy($id)
+    {
+        $plan = WorkoutPlan::findOrFail($id);
 
+        if ($plan->trainer_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-public function destroy($id)
-{
-    $plan = WorkoutPlan::findOrFail($id);
+        $plan->delete();
 
-    // Optional: check if the logged-in user owns the plan
-    if ($plan->trainer_id !== Auth::id()) {
-        abort(403, 'Unauthorized action.');
+        return redirect()->route('trainer.workout_plans.index')->with('success', 'Workout Plan deleted successfully!');
     }
-
-    $plan->delete(); // Will also delete related days & diets via foreign key cascade
-
-    return redirect()->route('trainer.workout_plans.index')->with('success', 'Workout Plan deleted successfully!');
-}
-
-
 }

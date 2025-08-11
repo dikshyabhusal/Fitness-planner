@@ -1,78 +1,103 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto mt-10">
+    <div class="max-w-6xl mx-auto mt-12 space-y-12 px-4">
 
-        <!-- PLAN INFO -->
-        <div class="bg-white p-6 rounded-2xl shadow-lg mb-10 border-l-8 border-purple-500">
-            <h2 class="text-4xl font-extrabold text-purple-700 mb-2">{{ $plan->title }}</h2>
-            <p class="text-sm text-gray-500 mb-1">👤 Trainer: <strong>{{ $plan->trainer->name }}</strong></p>
-            <p class="text-gray-700 mb-4 italic">{{ $plan->description }}</p>
-            <p class="text-sm text-gray-600">🕒 Duration: <strong>{{ $plan->duration_days }} days</strong> | Gender: <strong>{{ ucfirst($plan->gender) }}</strong></p>
-        </div>
+        <!-- 🏋️‍♂️ Workout Plan Header -->
+        <div class="bg-gradient-to-r from-purple-100 via-purple-50 to-purple-100 border border-purple-200 rounded-xl p-6 shadow">
+            <h2 class="text-4xl font-extrabold text-purple-800 mb-3">{{ $plan->title }}</h2>
+            <p class="text-gray-700 text-lg mb-2">
+                By
+                <a href="{{ route('trainer.profile', $plan->trainer->id) }}"
+                   class="text-purple-600 hover:underline font-semibold">
+                    {{ $plan->trainer->name }}
+                </a>
+                | Duration: <span class="font-semibold">{{ $plan->duration_days }} days</span>
+            </p>
 
-        <!-- WORKOUT SCHEDULE -->
-        <h3 class="text-3xl font-semibold text-purple-700 mb-4">📅 Workout Schedule</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-            @foreach($plan->days->take(6) as $day)
-
-                <div class="bg-gradient-to-br from-purple-100 to-purple-200 p-4 rounded-xl shadow-md hover:shadow-lg transition">
-                    <h4 class="font-bold text-purple-800">Day {{ $day->day_number }}</h4>
-                    <p class="text-sm text-gray-800 font-medium mt-1">{{ $day->title }}</p>
-                    <p class="text-xs text-gray-600 italic mt-1">{{ $day->description }}</p>
-                </div>
-            @endforeach
-        </div>
-
-        <!-- DIET PLAN -->
-        <h3 class="text-3xl font-semibold text-green-700 mb-4">🍽️ Diet Plan (7-Day Base)</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            @foreach($diet as $day => $meals)
-                <div class="p-4 bg-white border-l-4 border-green-400 rounded-xl shadow-md">
-                    <h4 class="font-bold text-green-700 mb-2">Day {{ $day }}</h4>
-                    @foreach($meals as $meal)
-                        <p class="text-sm text-gray-800 mb-1">
-                            <span class="font-semibold capitalize">{{ $meal->meal_time }}:</span>
-                            {{ $meal->meal }}
-                        </p>
-                    @endforeach
-                </div>
-            @endforeach
-        </div>
-
-        <!-- STUDENT REVIEWS SECTION -->
-        <h3 class="text-3xl font-semibold text-yellow-700 mb-4">⭐ Student Reviews</h3>
-
-        @forelse ($plan->reviews as $review)
-            <div class="bg-yellow-50 border-l-4 border-yellow-500 rounded p-4 mb-4 shadow-sm">
-                <div class="flex justify-between items-center">
-                    <p class="text-sm font-semibold text-gray-800">
-                        {{ $review->student->name }} reviewed:
-                        <span class="text-yellow-600 font-bold">{{ $review->rating }}/5 ⭐</span>
-                    </p>
-                    <p class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</p>
-                </div>
-                <p class="mt-2 text-gray-700 italic">"{{ $review->comment }}"</p>
-            </div>
-        @empty
-            <p class="text-gray-500 italic">No reviews yet from students.</p>
-        @endforelse
-
-        <!-- ACTION BUTTONS -->
-        <div class="flex justify-end space-x-4 mt-10">
-            <a href="{{ route('trainer.workout_plans.edit', $plan->id) }}"
-               class="bg-gradient-to-r from-purple-500 to-purple-700 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition">
-                ✏️ Edit
-            </a>
-
-            <form action="{{ route('trainer.workout_plans.destroy', $plan->id) }}" method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this plan?');">
+            <form action="{{ route('student.workout_plans.save', $plan->id) }}" method="POST" class="mt-3">
                 @csrf
-                @method('DELETE')
-                <button type="submit"
-                        class="bg-gradient-to-r from-red-500 to-red-700 text-white px-5 py-2 rounded-lg shadow hover:scale-105 transition">
-                    🗑️ Delete
+                <button class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-medium shadow transition">
+                    💾 Save Workout Plan
                 </button>
             </form>
         </div>
+
+        <!-- 📅 Workout Calendar -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-300">
+            <h3 class="text-2xl font-bold text-purple-700 mb-4 flex items-center gap-2">📅 Workout Calendar</h3>
+            <livewire:student-workout-calendar :planId="$plan->id" />
+        </div>
+
+        <!-- 💪 Workout Days -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-300">
+            <h3 class="text-2xl font-bold text-purple-700 mb-6">💪 Workout Plan Days</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                @foreach($plan->days as $day)
+                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 hover:shadow-lg transition">
+                        <h4 class="text-lg font-semibold text-purple-800 mb-1">Day {{ $day->day_number }}</h4>
+                        <p class="text-sm text-gray-800">{{ $day->title }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ $day->description }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- 🥗 Diet Plan -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-400">
+            <h3 class="text-2xl font-bold text-green-700 mb-6">🥗 Diet Plan (7-Day Base)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach($diet as $day => $meals)
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-700 text-lg mb-2">Day {{ $day }}</h4>
+                        @foreach($meals as $meal)
+                            <p class="text-sm text-gray-800">
+                                <span class="font-medium capitalize">{{ $meal->meal_time }}:</span>
+                                {{ $meal->meal }}
+                            </p>
+                        @endforeach
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- 🧾 Daily Progress Tracker -->
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-400">
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">📌 Track Your Daily Progress</h3>
+            <livewire:student-progress :planId="$plan->id" />
+        </div>
+
+        <!-- 📈 Progress Report Button -->
+        <div class="text-center">
+            <a href="{{ route('student.progress.report', $plan->id) }}"
+               class="inline-block mt-8 bg-purple-700 hover:bg-purple-800 text-white px-4 py-3 rounded-xl font-semibold shadow-lg transition">
+                📊 View Full Progress Report
+            </a>
+        </div>
+        <!-- Leave a Review Section -->
+@if(auth()->user()->hasRole('student'))
+    <form action="{{ route('reviews.store') }}" method="POST" class="mt-6">
+        @csrf
+        <input type="hidden" name="workout_plan_id" value="{{ $plan->id }}">
+        <label class="block mb-1 font-medium">Rating</label>
+        <select name="rating" class="border p-2 rounded w-full mb-4">
+            @for($i = 5; $i >= 1; $i--)
+                <option value="{{ $i }}">{{ $i }} Stars</option>
+            @endfor
+        </select>
+
+        <textarea name="comment" rows="3" placeholder="Write your feedback" class="border p-2 rounded w-full mb-4"></textarea>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Submit Review</button>
+    </form>
+@endif
+
+<!-- Show Reviews -->
+<h3 class="text-xl font-semibold mt-8">Student Reviews</h3>
+@foreach($plan->reviews as $review)
+    <div class="border rounded p-4 mt-4">
+        <p><strong>{{ $review->student->name }}</strong> rated {{ $review->rating }}⭐</p>
+        <p class="text-gray-600 mt-2">{{ $review->comment }}</p>
+    </div>
+@endforeach
+
 
     </div>
 </x-app-layout>

@@ -27,16 +27,18 @@
 
         <!-- Workout Categories -->
         <section class="max-w-7xl mx-auto mb-20">
-            <h2 class="text-3xl font-bold text-purple-900 mb-10 text-center">Your Workout Library</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                @foreach(['Strength', 'Cardio', 'Flexibility', 'Endurance', 'HIIT', 'Yoga'] as $type)
-                    <div class="bg-white bg-opacity-70 p-4 rounded-xl shadow hover:shadow-lg transition">
-                        <h4 class="text-xl font-semibold text-purple-900">{{ $type }}</h4>
-                        <p class="text-sm text-purple-700 mt-1">Create or manage {{ strtolower($type) }} workouts.</p>
-                    </div>
-                @endforeach
+    <h2 class="text-3xl font-bold text-purple-900 mb-10 text-center">Your Latest Workouts</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        @foreach ($latestWorkoutPlans as $plan)
+            <div class="bg-white bg-opacity-70 p-4 rounded-xl shadow hover:shadow-lg transition">
+                <h4 class="text-xl font-semibold text-purple-900">{{ $plan->title }}</h4>
+                <p class="text-sm text-purple-700 mt-1">{{ Str::limit($plan->description, 50) }}</p>
+                <p class="text-xs text-gray-500 mt-2">Created at: {{ $plan->created_at->format('M d, Y') }}</p>
             </div>
-        </section>
+        @endforeach
+    </div>
+</section>
+
 
         <!-- Features Overview -->
         <section class="max-w-7xl mx-auto">

@@ -3,10 +3,17 @@
 
 <div class="max-w-5xl mx-auto mt-10">
     <h2 class="text-2xl font-bold mb-4">Create Workout Plan</h2>
-    <form action="{{ route('trainer.workout_plans.store') }}" method="POST">
+    <form method="POST" action="{{ route('trainer.workout_plans.store') }}" enctype="multipart/form-data">
+
         @csrf
 
         <!-- Plan Info -->
+        <div class="mb-4">
+            <label class="block font-semibold">Workout Cover Image</label>
+            <input type="file" name="image" class="w-full border rounded p-2">
+            
+        </div> 
+
         <div class="mb-4">
             <label class="block font-semibold">Title</label>
             <input type="text" name="title" class="w-full border rounded p-2" required>

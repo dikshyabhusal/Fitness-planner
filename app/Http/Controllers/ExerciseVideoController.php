@@ -32,7 +32,7 @@ class ExerciseVideoController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'video' => 'required|mimes:mp4,mov,avi|max:20480',
+            'video' => 'required|mimes:mp4,mov,avi|max:512000',
             'body_part' => 'required',
             'goal' => 'required',
             'duration' => 'required|integer',

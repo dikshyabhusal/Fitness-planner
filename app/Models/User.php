@@ -65,6 +65,13 @@ public function receivedReviews()
 {
     return $this->hasMany(Review::class, 'trainer_id');
 }
-
+public function orders()
+{
+    return $this->hasMany(Order::class, 'student_id');
+}
+public function dietPlans()
+{
+    return $this->hasMany(UserDietPlan::class);
+}
 
 }

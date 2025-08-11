@@ -15,13 +15,17 @@
             @csrf
             <input type="text" name="title" placeholder="Title" class="w-full p-2 border rounded mb-4" required>
             <textarea name="description" placeholder="Description" class="w-full p-2 border rounded mb-4"></textarea>
-            <input type="file" name="video" id="videoInput" class="mb-4" required>
+            <input type="file" name="video" id="videoInput" class="mb-4" accept="video/*" required>
             <input type="text" name="body_part" placeholder="Body Part (e.g. Chest)" class="w-full p-2 border rounded mb-4" required>
             <input type="text" name="goal" placeholder="Goal (e.g. Weight Loss)" class="w-full p-2 border rounded mb-4" required>
-            <input type="number" name="duration" placeholder="Duration in minutes" class="w-full p-2 border rounded mb-4" required>
+            <input type="number" name="duration" placeholder="Duration in minutes" class="w-full p-2 border rounded mb-4" required min="1">
 
-            <button type="submit" id="uploadBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Upload</button>
+            <button type="submit" id="uploadBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition disabled:opacity-50 disabled:cursor-not-allowed">Upload</button>
         </form>
+
+        <p class="mt-6 text-sm text-gray-600">
+            ⚠️ Make sure your server’s PHP configuration allows large uploads (e.g., upload_max_filesize & post_max_size in php.ini should be large enough).
+        </p>
     </div>
 
     <script>
@@ -33,22 +37,22 @@
         const uploadBtn = document.getElementById('uploadBtn');
 
         form.addEventListener('submit', function (e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
 
             const formData = new FormData(form);
             const xhr = new XMLHttpRequest();
+
             xhr.open("POST", "{{ route('videos.store') }}", true);
 
             let seconds = 0;
-            let interval = setInterval(() => {
-                if (seconds >= 100) {
-                    clearInterval(interval);
-                }
-                timerSpan.textContent = ++seconds;
-            }, 1000);
-
             uploadingStatus.classList.remove('hidden');
             uploadBtn.disabled = true;
+
+            // Timer increments every second until upload finishes
+            let interval = setInterval(() => {
+                seconds++;
+                timerSpan.textContent = seconds;
+            }, 1000);
 
             xhr.upload.onprogress = function (e) {
                 if (e.lengthComputable) {
@@ -69,16 +73,25 @@
                         window.location.href = "{{ route('videos.index') }}";
                     }, 1500);
                 } else {
-                    alert("Upload failed!");
-                    uploadBtn.disabled = false;
+                    alert("Upload failed! Please try again.");
+                    resetUpload();
                 }
             };
 
             xhr.onerror = function () {
                 clearInterval(interval);
-                alert("Upload failed. Check your network.");
-                uploadBtn.disabled = false;
+                alert("Upload failed. Check your network and server limits.");
+                resetUpload();
             };
+
+            function resetUpload() {
+                uploadingStatus.classList.add('hidden');
+                progressBar.style.width = '0%';
+                progressBar.textContent = '0%';
+                percentageSpan.textContent = '0%';
+                timerSpan.textContent = '0';
+                uploadBtn.disabled = false;
+            }
 
             xhr.send(formData);
         });

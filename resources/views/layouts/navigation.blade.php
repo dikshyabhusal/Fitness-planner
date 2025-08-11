@@ -1,27 +1,38 @@
-<!-- Include Inter font in your layout's <head> section -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
 
 <!-- Navbar -->
-<nav x-data="{ open: false }" class="bg-gradient-to-r from-purple-950 via-purple-800 to-purple-700 text-white shadow-md sticky top-0 z-50 font-['Inter']">
+<nav x-data="{ open: false }" class="bg-gradient-to-r from-purple-950 via-purple-800 to-purple-700 text-white shadow-md sticky top-0 z-50 font-sans" style="font-family: 'Inter', sans-serif;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
 
             <!-- Logo -->
             <div class="flex items-center space-x-3">
-                <a href="{{ route('dashboard') }}" class="text-2xl font-extrabold tracking-wide text-purple-300">
-                    Fitness<span class="text-white">Planner</span>
+                <a href="{{ route('dashboard') }}" class="text-3xl font-extrabold tracking-wide flex items-center select-none">
+                    <span style="font-family: 'Pacifico', cursive;" class="text-purple-300">Fitness</span>
+                    <span class="text-white ml-1" style="font-family: 'Pacifico', cursive;">Planner</span>
                 </a>
             </div>
 
             <!-- Desktop Links -->
             <div class="hidden md:flex space-x-6 items-center text-sm font-medium">
-                
                 @role('student')
-                <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300">RECOMMEND DIET</x-nav-link>
+                <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300 transition-colors duration-200">RECOMMEND DIET</x-nav-link>
                 @endrole
+
                 @role('trainer')
+                <li>
+                    <x-nav-link 
+                        :href="route('trainer.workouts.index')" 
+                        :active="request()->routeIs('trainer.workouts.*')" 
+                        class="hover:text-purple-300 transition-colors duration-200"
+                    >
+                        VIEW WORKOUTS
+                    </x-nav-link>
+                </li>
+
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
-                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer">CREATE</a>
+                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">CREATE</a>
                     <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
                         <li><x-nav-link :href="route('diet.step1.form')" :active="request()->routeIs('diet.step1.form')">CREATE DIET PLAN</x-nav-link></li>
                         <li><x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">CREATE WORKOUT PLAN</x-nav-link></li>
@@ -29,10 +40,14 @@
                     </ul>
                 </li>
                 @endrole
+
                 @role('student')
+                <li><x-nav-link :href="route('shop.index')" :active="request()->routeIs('shop*')" class="hover:text-purple-300 transition-colors duration-200">VIEW SHOP</x-nav-link></li>
+                @endrole
+
                 <!-- Calculations Dropdown -->
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
-                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer">CALCULATE</a>
+                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">CALCULATE</a>
                     <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
                         <li><x-nav-link :href="route('calculator.bmi')" :active="request()->routeIs('calculator.bmi')">BODY MASS INDEX (BMI)</x-nav-link></li>
                         <li><x-nav-link :href="route('calculator.bodyFat')" :active="request()->routeIs('calculator.bodyFat')">BODY FAT INDEX (BFI)</x-nav-link></li>
@@ -42,15 +57,11 @@
                         <li><x-nav-link :href="route('calculator.gripStrength')" :active="request()->routeIs('calculator.gripStrength')">GRIP STRENGTH CALCULATOR</x-nav-link></li>
                     </ul>
                 </li>
-                @endrole
-
-                
 
                 @role('student')
-                    <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300">VIEW WORKOUTS</x-nav-link>
-                    <x-nav-link :href="route('videos.index')" :active="request()->routeIs('videos.index*')" class="hover:text-purple-300">WATCH VIDEOS</x-nav-link>
+                <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300 transition-colors duration-200">VIEW WORKOUTS</x-nav-link>
+                <x-nav-link :href="route('videos.index')" :active="request()->routeIs('videos.index*')" class="hover:text-purple-300 transition-colors duration-200">WATCH VIDEOS</x-nav-link>
                 @endrole
-                <x-nav-link :href="route('contact.show')" :active="request()->routeIs('contact*')" class="hover:text-purple-300">CONTACT US</x-nav-link>
             </div>
 
             <!-- Notifications & User Dropdown -->

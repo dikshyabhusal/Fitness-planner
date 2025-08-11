@@ -13,5 +13,9 @@ class Progress extends Model
     'workout_done',
     'diet_done',
 ];
+public function student()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 
 }

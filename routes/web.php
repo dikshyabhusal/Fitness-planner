@@ -18,11 +18,18 @@ use App\Http\Controllers\DietCategoryController;
 use App\Http\Controllers\UserDietPlanController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\BMIController;
+// use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExerciseVideoController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AIChatController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\TrainerProgressController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\TrainerWorkoutController;
+
+
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'))->name('home');
 
@@ -108,10 +115,16 @@ Route::middleware(['auth'])->group(function () {
     // Step 1: Select Goal & Target
     Route::get('/diet/create-step1', [UserDietPlanController::class, 'stepOneForm'])->name('diet.step1.form');
     Route::post('/diet/create-step1', [UserDietPlanController::class, 'storeStepOne'])->name('diet.step1.store');
+// Route::get('/diet/{category}', [UserDietPlanController::class, 'showCategory'])->name('diet.show');
 
     // Step 2: Enter Meal Plan
     Route::get('/diet/create-step2/{category}', [UserDietPlanController::class, 'stepTwoForm'])->name('diet.step2.form');
     Route::post('/diet/create-step2/{category}', [UserDietPlanController::class, 'storeStepTwo'])->name('diet.step2.store');
+    // Route to show a single diet plan by its id or slug (whatever your identifier is)
+    // Route::get('/diet/{userDietPlan}', [UserDietPlanController::class, 'show'])->name('diet.show');
+    Route::get('/diet-categories', [UserDietPlanController::class, 'categories'])->name('diet.categories');
+Route::get('/diet-categories/{category}', [UserDietPlanController::class, 'categoryPlans'])->name('diet.category.plans');
+Route::get('/diet-plans/{dietPlan}', [UserDietPlanController::class, 'showPlan'])->name('diet.show');
 });
 
 
@@ -172,7 +185,31 @@ Route::middleware(['auth', 'role:trainer'])->group(function () {
 });
 
 
+Route::prefix('admin')->name('admin.')->middleware(['auth','role:admin'])->group(function(){
+    Route::resource('products', ProductController::class);
+    Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::post('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    
+});
 
+Route::middleware(['auth','role:student'])->group(function(){
+    Route::get('/shop', [ProductController::class, 'shop'])->name('shop.index');
+    Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/orders/create/{product}', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/order/{order}/invoice', [OrderController::class, 'invoice'])->name('order.invoice');
+    Route::post('/order/{order}/pay', [OrderController::class, 'pay'])->name('order.pay');
+    // optional PDF download (requires barryvdh/laravel-dompdf)
+    Route::get('/order/{order}/invoice/download', [OrderController::class, 'downloadInvoice'])->name('order.invoice.download');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
+    Route::get('/my-orders/{order}', [OrderController::class, 'myOrderDetails'])->name('orders.my.details');
+});
+
+
+// routes/web.php
+Route::prefix('trainer')->name('trainer.')->middleware(['auth','role:trainer'])->group(function () {
+    Route::get('/workouts', [TrainerWorkoutController::class, 'index'])->name('workouts.index');
+    Route::get('/workouts/{id}/progress', [TrainerWorkoutController::class, 'progress'])->name('workouts.progress');
+});
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';

@@ -12,7 +12,7 @@ class ChatBox extends Component
 {
     use WithFileUploads;
 
-    public User $chatUser;  // renamed
+    public ?User $chatUser = null;  // ✅ Prevents uninitialized error
     public string $message = '';
     public $file;
     public bool $isTyping = false;
@@ -25,6 +25,10 @@ class ChatBox extends Component
     public function sendMessage()
     {
         $this->validate();
+
+        if (!$this->chatUser) {
+            return; // Don't proceed if no user selected
+        }
 
         $data = [
             'sender_id' => Auth::id(),
@@ -62,15 +66,17 @@ class ChatBox extends Component
     {
         $currentUserId = Auth::id();
 
-        if (!$this->chatUser || !$this->chatUser instanceof User || $this->chatUser->id === $currentUserId) {
+        if (!isset($this->chatUser) || !$this->chatUser instanceof User || $this->chatUser->id === $currentUserId) {
             return view('livewire.chat-box', ['messages' => []]);
         }
 
+        // Mark received messages as read
         Message::where('receiver_id', $currentUserId)
             ->where('sender_id', $this->chatUser->id)
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
+        // Load messages
         $messages = Message::where(function ($q) use ($currentUserId) {
                 $q->where('sender_id', $currentUserId)
                   ->where('receiver_id', $this->chatUser->id)

@@ -64,4 +64,47 @@ class UserDietPlanController extends Controller
 
         return redirect()->route('diet.step1.form')->with('success', 'Diet Plan Created Successfully!');
     }
+//     public function show(UserDietPlan $userDietPlan)
+// {
+//     // Assuming you want to show all plans for this user for that category
+//     $plans = UserDietPlan::with('category')
+//         ->where('user_id', $userDietPlan->user_id)
+//         ->where('diet_category_id', $userDietPlan->diet_category_id)
+//         ->orderBy('day_number')
+//         ->get();
+
+//     return view('diet.show', compact('plans'));
+// }
+public function categories()
+    {
+        $categories = DietCategory::all();
+        return view('diet.categories', compact('categories'));
+    }
+
+    // Show all diet plans under a category
+    public function categoryPlans(DietCategory $category)
+    {
+        // Load diet plans grouped by day or just all plans for category
+        // Here we get all diet plans for this category, grouped by day_number for UI
+        $plans = UserDietPlan::where('diet_category_id', $category->id)
+                             ->orderBy('day_number')
+                             ->get();
+
+        return view('diet.category_plans', compact('category', 'plans'));
+    }
+
+    // Show full details of a diet plan (single plan could mean all meals of a day or a specific UserDietPlan record?)
+    // Assuming you want all meals for a day of a category, let's pass category and day_number
+    public function showPlan(UserDietPlan $dietPlan)
+    {
+        // Get all meals for same user_id, diet_category_id and day_number (assuming daily meal plan)
+        $detailedMeals = UserDietPlan::where('user_id', $dietPlan->user_id)
+            ->where('diet_category_id', $dietPlan->diet_category_id)
+            ->where('day_number', $dietPlan->day_number)
+            ->orderBy('meal_time')
+            ->get();
+
+        return view('diet.show_plan', compact('dietPlan', 'detailedMeals'));
+    }
+
 }
