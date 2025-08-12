@@ -75,22 +75,57 @@ class UserDietPlanController extends Controller
 
 //     return view('diet.show', compact('plans'));
 // }
-public function categories()
-    {
-        $categories = DietCategory::all();
-        return view('diet.categories', compact('categories'));
+    public function categories(Request $request)
+{
+    $query = DietCategory::query();
+
+    // Search by target area or goal
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('target_area', 'LIKE', "%{$search}%")
+              ->orWhere('goal', 'LIKE', "%{$search}%");
+        });
     }
 
+    // Filter by target_area
+    if ($request->filled('target_area')) {
+        $query->where('target_area', $request->target_area);
+    }
+
+    // Filter by goal
+    if ($request->filled('goal')) {
+        $query->where('goal', $request->goal);
+    }
+
+    $categories = $query->latest()->get();
+
+    // Pass unique values for filters
+    $targetAreas = DietCategory::select('target_area')->distinct()->pluck('target_area');
+    $goals = DietCategory::select('goal')->distinct()->pluck('goal');
+
+    return view('diet.categories', compact('categories', 'targetAreas', 'goals'));
+}
+
     // Show all diet plans under a category
-    public function categoryPlans(DietCategory $category)
+    public function categoryPlans($id)
     {
+        $category = DietCategory::findOrFail($id);
         // Load diet plans grouped by day or just all plans for category
         // Here we get all diet plans for this category, grouped by day_number for UI
-        $plans = UserDietPlan::where('diet_category_id', $category->id)
-                             ->orderBy('day_number')
-                             ->get();
+        $mealsCollection = UserDietPlan::where('diet_category_id', $id)
+        ->orderBy('day_number')
+        ->orderBy('meal_time')
+        ->get()
+        ->groupBy('day_number');
 
-        return view('diet.category_plans', compact('category', 'plans'));
+    // Ensure days are sequential, even if some are missing
+    $maxDay = $mealsCollection->keys()->max() ?? 0;
+    $meals = collect();
+    for ($day = 1; $day <= $maxDay; $day++) {
+        $meals->put($day, $mealsCollection->get($day, collect()));
+    }
+        return view('diet.category_plans', compact('category', 'meals'));
     }
 
     // Show full details of a diet plan (single plan could mean all meals of a day or a specific UserDietPlan record?)

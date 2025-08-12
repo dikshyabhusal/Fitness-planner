@@ -77,9 +77,7 @@
 
         ['title' => '🏋️ My Workout Plans', 'desc' => 'View your assigned workouts.', 'link' => route('student.workout_plans.index'), 'icon' => 'https://cdn-icons-png.flaticon.com/512/833/833472.png'],
 
-        ['title' => '🥗 My Diet Plan', 'desc' => 'Follow your personalized meal schedule.', 
-         'link' => $latestDietPlan ? route('diet.show', $latestDietPlan->id) : '#', 
-         'icon' => 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png'],
+        
 
         ['title' => '🎥 Watch Workout Videos', 'desc' => 'Video tutorials for form.', 'link' => route('videos.index'), 'icon' => 'https://cdn-icons-png.flaticon.com/512/2910/2910768.png'],
 

@@ -123,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
     // Route to show a single diet plan by its id or slug (whatever your identifier is)
     // Route::get('/diet/{userDietPlan}', [UserDietPlanController::class, 'show'])->name('diet.show');
     Route::get('/diet-categories', [UserDietPlanController::class, 'categories'])->name('diet.categories');
-Route::get('/diet-categories/{category}', [UserDietPlanController::class, 'categoryPlans'])->name('diet.category.plans');
+Route::get('/diet-categories/{id}', [UserDietPlanController::class, 'categoryPlans'])->name('diet.category.plans');
 Route::get('/diet-plans/{dietPlan}', [UserDietPlanController::class, 'showPlan'])->name('diet.show');
 });
 
