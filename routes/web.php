@@ -25,6 +25,7 @@ use App\Http\Controllers\AIChatController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\TrainerProgressController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\TrainerWorkoutController;
@@ -159,6 +160,7 @@ Route::prefix('calculator')->group(function () {
 Route::middleware(['auth', 'role:trainer'])->group(function () {
     Route::get('/videos/create', [ExerciseVideoController::class, 'create'])->name('videos.create');
     Route::post('/videos', [ExerciseVideoController::class, 'store'])->name('videos.store');
+    
 });
 
 Route::middleware(['auth','role:student'])->group(function () {
@@ -210,6 +212,15 @@ Route::prefix('trainer')->name('trainer.')->middleware(['auth','role:trainer'])-
     Route::get('/workouts', [TrainerWorkoutController::class, 'index'])->name('workouts.index');
     Route::get('/workouts/{id}/progress', [TrainerWorkoutController::class, 'progress'])->name('workouts.progress');
 });
+// routes/web.php
+Route::middleware(['auth', 'role:trainer'])->group(function () {
+    Route::get('/exercises/create', [ExcerciseController::class, 'create'])->name('exercises.create');
+    Route::post('/exercises', [ExcerciseController::class, 'store'])->name('exercises.store');
+});
+
+Route::get('/exercises', [ExcerciseController::class, 'index'])->name('exercises.index');
+Route::get('/exercises/{exercise}', [ExcerciseController::class, 'show'])->name('exercises.show');
+Route::get('/exercises/category/{id}', [ExcerciseController::class, 'category'])->name('exercises.category');
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';

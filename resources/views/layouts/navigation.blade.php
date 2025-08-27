@@ -37,6 +37,7 @@
                         <li><x-nav-link :href="route('diet.step1.form')" :active="request()->routeIs('diet.step1.form')">CREATE DIET PLAN</x-nav-link></li>
                         <li><x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">CREATE WORKOUT PLAN</x-nav-link></li>
                         <li><x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">CREATE VIDEO</x-nav-link></li>
+                        <li><x-nav-link :href="route('exercises.create')" :active="request()->routeIs('exercises.create*')" class="hover:text-purple-300">CREATE EXERCISE</x-nav-link></li>
                     </ul>
                 </li>
                 @endrole
@@ -44,6 +45,35 @@
                 @role('student')
                 <li><x-nav-link :href="route('shop.index')" :active="request()->routeIs('shop*')" class="hover:text-purple-300 transition-colors duration-200">VIEW SHOP</x-nav-link></li>
                 @endrole
+
+                <!-- Exercises Dropdown -->
+                <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
+                <a href="#" @click.prevent="open = !open"
+                class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">
+                EXERCISES
+                </a>
+                <ul x-show="open" x-transition
+                    class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
+
+                    {{-- View All Exercises --}}
+                    <li>
+                        <x-nav-link :href="route('exercises.index')" :active="request()->routeIs('exercises.index')">
+                            View All
+                        </x-nav-link>
+                    </li>
+
+                    {{-- Dynamic Categories --}}
+                    @foreach(App\Models\ExerciseCategory::all() as $cat)
+                        <li>
+                            <x-nav-link :href="route('exercises.category', $cat->id)"
+                                        :active="request()->is('exercises/category/'.$cat->id)">
+                                {{ $cat->name }} Exercises
+                            </x-nav-link>
+                        </li>
+                    @endforeach
+                </ul>
+            </li>
+
 
                 <!-- Calculations Dropdown -->
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
@@ -112,11 +142,13 @@
             @role('trainer')
                 <x-responsive-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')">Workout Plans</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')">Upload Video</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('exercises.create')" :active="request()->routeIs('exercises.create*')">Upload Exercise</x-responsive-nav-link>
             @endrole
 
             @role('student')
                 <x-responsive-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')">View Workouts</x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('videos.index')" :active="request()->routeIs('videos.index*')">Watch Video</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('exercises.index')" :active="request()->routeIs('exercises.index*')">View Exercises</x-responsive-nav-link>
             @endrole
 
             <form method="POST" action="{{ route('logout') }}">

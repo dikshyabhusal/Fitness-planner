@@ -29,28 +29,28 @@ class ExerciseVideoController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'video' => 'required|mimes:mp4,mov,avi|max:512000',
-            'body_part' => 'required',
-            'goal' => 'required',
-            'duration' => 'required|integer',
-        ]);
+{
+    $request->validate([
+        'title' => 'required',
+        'video' => 'required|mimes:mp4,mov,avi|max:51200000',
+        'body_part' => 'required',
+        'goal' => 'required',
+        'duration' => 'required|integer',
+    ]);
 
-        $path = $request->file('video')->store('videos', 'public');
+    $path = $request->file('video')->store('videos', 'public');
 
-        ExerciseVideo::create([
-            'trainer_id' => auth()->id(),
-            'title' => $request->title,
-            'description' => $request->description,
-            'video_path' => $path,
-            'body_part' => $request->body_part,
-            'goal' => $request->goal,
-            'duration' => $request->duration,
-        ]);
-        dd($videos);
+    ExerciseVideo::create([
+        'trainer_id' => auth()->id(),
+        'title' => $request->title,
+        'description' => $request->description,
+        'video_path' => $path,
+        'body_part' => $request->body_part,
+        'goal' => $request->goal,
+        'duration' => $request->duration,
+    ]);
 
-        return redirect()->route('videos.index')->with('success', 'Video uploaded successfully.');
-    }
+    return redirect()->route('videos.create')->with('success', 'Video uploaded successfully.');
+}
+
 }

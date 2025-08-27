@@ -9,7 +9,7 @@
                 <div class="bg-gray-100 rounded p-4 mb-4">
                     <h4 class="font-semibold mb-2">Day {{ $day }}</h4>
 
-                    @foreach(['breakfast', 'lunch', 'dinner'] as $meal_time)
+                    @foreach(['breakfast', 'lunch','snacks', 'dinner'] as $meal_time)
                         <div class="mb-2">
                             <label class="block text-sm">{{ ucfirst($meal_time) }}</label>
                             <input type="text" name="days[{{ $day }}][{{ $meal_time }}]" class="w-full border p-2 rounded" placeholder="Enter {{ $meal_time }}">
