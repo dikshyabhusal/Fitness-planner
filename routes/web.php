@@ -29,7 +29,7 @@ use App\Http\Controllers\ExcerciseController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\TrainerWorkoutController;
-
+use App\Http\Controllers\StudentDashboardController;
 
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'))->name('home');
@@ -221,6 +221,11 @@ Route::middleware(['auth', 'role:trainer'])->group(function () {
 Route::get('/exercises', [ExcerciseController::class, 'index'])->name('exercises.index');
 Route::get('/exercises/{exercise}', [ExcerciseController::class, 'show'])->name('exercises.show');
 Route::get('/exercises/category/{id}', [ExcerciseController::class, 'category'])->name('exercises.category');
+
+Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard.student');
+
 
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
 require __DIR__.'/auth.php';
