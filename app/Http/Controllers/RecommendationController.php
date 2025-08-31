@@ -62,5 +62,54 @@ class RecommendationController extends Controller
         return back()->with('success', 'Diet plan bookmarked!');
     }
 }
+//workout
+public function showForm()
+    {
+        return view('recommendation.form');
+    }
+
+
+    // Handle recommendation logic
+    public function recommends(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'goal' => 'required',
+            'area' => 'required',
+        ]);
+
+        $user_goal = $request->input('goal');
+        $focus_area = $request->input('area');
+
+        // Example workout plans (can later use DB)
+        $plans = [
+            ['title' => 'Abs Burner', 'goal' => 'Lose Weight', 'area' => 'Abs'],
+            ['title' => 'Mass Builder', 'goal' => 'Gain Muscle', 'area' => 'Chest'],
+            ['title' => 'Leg Toning', 'goal' => 'Lose Weight', 'area' => 'Leg'],
+            ['title' => 'Full Body Blast', 'goal' => 'Lose Weight', 'area' => 'Full Body'],
+        ];
+
+        // Convert plans to JSON and escape for shell
+        $plans_json = escapeshellarg(json_encode($plans));
+
+        // Build command to run Python script
+        $command = "python3 " . base_path('python_scripts/recommend.py') . " "
+                   . escapeshellarg($user_goal) . " "
+                   . escapeshellarg($focus_area) . " "
+                   . $plans_json;
+
+        // Execute Python script
+        $output = trim(shell_exec($command));
+
+        // Decode JSON output safely
+        $recommendations = json_decode($output, true);
+        if (!is_array($recommendations)) {
+            $recommendations = [];
+        }
+
+        // Return result view
+        return view('recommendation.result', compact('recommendations'));
+    }
+
 
 }

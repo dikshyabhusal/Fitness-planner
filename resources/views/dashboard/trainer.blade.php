@@ -15,6 +15,7 @@
                 ['title' => 'Create Workout Plan', 'icon' => '🏋️', 'route' => 'trainer.workout_plans.create'],
                 ['title' => 'Upload Exercise Video', 'icon' => '🎥', 'route' => 'videos.create'],
                 ['title' => 'Create Diet Plan', 'icon' => '🥗', 'route' => 'diet.step1.form'],
+                ['title' => 'Create Exercise', 'icon' => '🏋️', 'route' => 'exercises.create'],
                 // ['title' => 'Check Progress', 'icon' => '📊', 'route' => 'trainer.progress.overview'],
             ] as $card)
                 <a href="{{ route($card['route']) }}"

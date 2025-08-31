@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="min-h-screen bg-gradient-to-b from-[#141e30] via-[#243b55] to-[#0f2027] text-white font-[Inter]">
-
+        
         {{-- HERO SECTION --}}
         <section class="relative w-full h-[90vh] bg-cover bg-center flex items-center justify-center"
                  style="background-image: url('https://source.unsplash.com/1600x900/?fitness,training');">

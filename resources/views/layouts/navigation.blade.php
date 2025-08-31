@@ -18,6 +18,8 @@
             <div class="hidden md:flex space-x-6 items-center text-sm font-medium">
                 @role('student')
                 <x-nav-link :href="route('diet.recommend.form')" :active="request()->routeIs('diet.recommend.form')" class="hover:text-purple-300 transition-colors duration-200">RECOMMEND DIET</x-nav-link>
+                <x-nav-link :href="route('recommendation.form')" :active="request()->routeIs('recommendation.form')" class="hover:text-purple-300 transition-colors duration-200">RECOMMEND WORKOUT</x-nav-link>
+                
                 @endrole
 
                 @role('trainer')
@@ -29,6 +31,15 @@
                     >
                         VIEW WORKOUTS
                     </x-nav-link>
+                </li>
+                <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
+                    <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">VIEW</a>
+                    <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
+                        <li><x-nav-link :href="route('trainer.workouts.index')" :active="request()->routeIs('trainer.workouts.*')">WORKOUTS</x-nav-link></li>
+                        <li><x-nav-link :href="route('trainer.dietplans.index')" :active="request()->routeIs('trainer.dietplans.index*')" class="hover:text-purple-300">DIET PLANS</x-nav-link></li>
+                        <li><x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">VIDEO</x-nav-link></li>
+                        <li><x-nav-link :href="route('trainer.exercises.index')" :active="request()->routeIs('trainer.exercises.index*')" class="hover:text-purple-300">EXERCISE</x-nav-link></li>
+                    </ul>
                 </li>
 
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">

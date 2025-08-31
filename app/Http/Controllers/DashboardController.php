@@ -16,7 +16,7 @@ class DashboardController extends Controller
     } elseif ($user->hasRole('trainer')) {
         return redirect()->route('trainer.dashboard');
     } elseif ($user->hasRole('student')) {
-        return redirect()->route('student.dashboard');
+        return redirect()->route('dashboard.student');
     }
 
     abort(403);

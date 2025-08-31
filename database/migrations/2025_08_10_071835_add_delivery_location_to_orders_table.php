@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('status')->default('pending')->after('total_amount');
+            // $table->string('status')->default('pending')->after('total_amount');
             $table->string('delivery_address')->nullable()->after('payment_method');
             $table->decimal('latitude', 10, 7)->nullable()->after('delivery_address');
             $table->decimal('longitude', 10, 7)->nullable()->after('latitude');

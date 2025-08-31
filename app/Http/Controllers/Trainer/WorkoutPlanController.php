@@ -11,11 +11,20 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkoutPlanController extends Controller
 {
-    public function index()
-    {
-        $plans = WorkoutPlan::where('trainer_id', Auth::id())->get();
-        return view('trainer.workout_plans.index', compact('plans'));
+    public function index(Request $request)
+{
+    $query = WorkoutPlan::where('trainer_id', Auth::id());
+
+    // Search filter
+    if ($request->filled('search')) {
+        $query->where('title', 'like', '%' . $request->search . '%');
     }
+
+    $plans = $query->latest()->get();
+
+    return view('trainer.workout_plans.index', compact('plans'));
+}
+
 
     public function create()
     {

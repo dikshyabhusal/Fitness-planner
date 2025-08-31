@@ -73,5 +73,15 @@ public function dietPlans()
 {
     return $this->hasMany(UserDietPlan::class);
 }
+ // Trainer's exercises
+    public function exercises()
+    {
+        return $this->hasMany(Exercise::class, 'user_id');
+    }
 
+    // Trainer's diets
+    public function diets()
+    {
+        return $this->hasMany(UserDietPlan::class, 'user_id');
+    }
 }

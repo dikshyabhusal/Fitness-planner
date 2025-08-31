@@ -30,7 +30,7 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\TrainerWorkoutController;
 use App\Http\Controllers\StudentDashboardController;
-
+use App\Http\Controllers\TipController;
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'))->name('home');
 
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:trainer'])->prefix('trainer')->name('trainer.')
 
 // 🎓 Student Routes
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
-    Route::get('/dashboard', fn () => view('dashboard.student'))->name('dashboard');
+    // Route::get('/dashboard', fn () => view('dashboard.student'))->name('dashboard');
 
     Route::get('/workout-plans', [StudentWorkoutPlanController::class, 'index'])->name('workout_plans.index');
     Route::get('/workout-plans/{id}', [StudentWorkoutPlanController::class, 'show'])->name('workout_plans.show');
@@ -211,6 +211,9 @@ Route::middleware(['auth','role:student'])->group(function(){
 Route::prefix('trainer')->name('trainer.')->middleware(['auth','role:trainer'])->group(function () {
     Route::get('/workouts', [TrainerWorkoutController::class, 'index'])->name('workouts.index');
     Route::get('/workouts/{id}/progress', [TrainerWorkoutController::class, 'progress'])->name('workouts.progress');
+     Route::get('/workouts/{id}/edit', [TrainerWorkoutController::class, 'edit'])->name('workouts.edit');
+    Route::put('/workouts/{id}', [TrainerWorkoutController::class, 'update'])->name('workouts.update');
+    Route::delete('/workouts/{id}', [TrainerWorkoutController::class, 'destroy'])->name('workouts.destroy');
 });
 // routes/web.php
 Route::middleware(['auth', 'role:trainer'])->group(function () {
@@ -221,11 +224,25 @@ Route::middleware(['auth', 'role:trainer'])->group(function () {
 Route::get('/exercises', [ExcerciseController::class, 'index'])->name('exercises.index');
 Route::get('/exercises/{exercise}', [ExcerciseController::class, 'show'])->name('exercises.show');
 Route::get('/exercises/category/{id}', [ExcerciseController::class, 'category'])->name('exercises.category');
-
+ Route::get('exercises/{exercise}/edit', [ExcerciseController::class, 'edit'])->name('exercises.edit');
+    Route::put('exercises/{exercise}', [ExcerciseController::class, 'update'])->name('exercises.update');
+    Route::delete('exercises/{exercise}', [ExcerciseController::class, 'destroy'])->name('exercises.destroy');
 Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard.student');
+// Trainer routes group
+Route::prefix('trainer')->middleware(['auth', 'role:trainer'])->group(function () {
 
+    // Route::get('/workouts', [TrainerClientController::class, 'index'])->name('trainer.workouts.index');
 
+    Route::get('/exercises', [TrainerClientController::class, 'exercises'])->name('trainer.exercises.index');
+
+    Route::get('/diet-plans', [TrainerClientController::class, 'diets'])->name('trainer.dietplans.index');
+
+});
+Route::get('/tip/random', [TipController::class, 'random'])->name('tip.random');
 // 🔐 Auth Scaffolding (Laravel Breeze, Fortify, Jetstream, etc.)
+
+Route::get('/recommendation', [RecommendationController::class, 'showForm'])->name('recommendation.form');
+Route::post('/recommendation', [RecommendationController::class, 'recommends'])->name('recommendation.recommend');
 require __DIR__.'/auth.php';
