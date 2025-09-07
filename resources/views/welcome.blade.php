@@ -136,6 +136,15 @@
                     Get Started
                 </a>
             </section>
+            
+            <section>
+                @include('partials.testimonials-carousel')
+            </section>
+
+            <!-- Leave Review Form -->
+            <section>
+                @include('partials.testimonial-form')
+            </section>
         </main>
     </div>
 

@@ -46,7 +46,7 @@
                     <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">CREATE</a>
                     <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
                         <li><x-nav-link :href="route('diet.step1.form')" :active="request()->routeIs('diet.step1.form')">CREATE DIET PLAN</x-nav-link></li>
-                        <li><x-nav-link :href="route('trainer.workout_plans.index')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">CREATE WORKOUT PLAN</x-nav-link></li>
+                        <li><x-nav-link :href="route('trainer.workout_plans.create')" :active="request()->routeIs('trainer.workout_plans*')" class="hover:text-purple-300">CREATE WORKOUT PLAN</x-nav-link></li>
                         <li><x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">CREATE VIDEO</x-nav-link></li>
                         <li><x-nav-link :href="route('exercises.create')" :active="request()->routeIs('exercises.create*')" class="hover:text-purple-300">CREATE EXERCISE</x-nav-link></li>
                     </ul>
@@ -56,7 +56,7 @@
                 @role('student')
                 <li><x-nav-link :href="route('shop.index')" :active="request()->routeIs('shop*')" class="hover:text-purple-300 transition-colors duration-200">VIEW SHOP</x-nav-link></li>
                 @endrole
-
+                @role('student')
                 <!-- Exercises Dropdown -->
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
                 <a href="#" @click.prevent="open = !open"
@@ -83,9 +83,10 @@
                         </li>
                     @endforeach
                 </ul>
-            </li>
+                </li>
+                @endrole
 
-
+                @role('student')
                 <!-- Calculations Dropdown -->
                 <li x-data="{ open: false }" class="relative" @mouseenter="open = true" @mouseleave="open = false">
                     <a href="#" @click.prevent="open = !open" class="hover:text-purple-300 cursor-pointer transition-colors duration-200 font-semibold">CALCULATE</a>
@@ -98,6 +99,7 @@
                         <li><x-nav-link :href="route('calculator.gripStrength')" :active="request()->routeIs('calculator.gripStrength')">GRIP STRENGTH CALCULATOR</x-nav-link></li>
                     </ul>
                 </li>
+                @endrole
 
                 @role('student')
                 <x-nav-link :href="route('student.workout_plans.index')" :active="request()->routeIs('student.workout_plans*')" class="hover:text-purple-300 transition-colors duration-200">VIEW WORKOUTS</x-nav-link>

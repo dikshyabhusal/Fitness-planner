@@ -31,8 +31,15 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\TrainerWorkoutController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TipController;
+use App\Http\Controllers\TestimonialController;
 // 🏠 Public Pages
 Route::get('/', fn () => view('welcome'))->name('home');
+
+
+// Route::middleware(['auth','role:student'])->group(function () {
+//     Route::get('/plans/{plan}', [StudentPlanController::class, 'show'])->name('student.plan.show');
+//     Route::post('/plans/{plan}/mark-done', [StudentPlanController::class, 'markDone'])->name('student.plan.mark_done');
+// });
 
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/aboutauth', [AboutController::class, 'aboutauth'])->name('aboutauth');
@@ -245,4 +252,9 @@ Route::get('/tip/random', [TipController::class, 'random'])->name('tip.random');
 
 Route::get('/recommendation', [RecommendationController::class, 'showForm'])->name('recommendation.form');
 Route::post('/recommendation', [RecommendationController::class, 'recommends'])->name('recommendation.recommend');
+
+Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+
+
 require __DIR__.'/auth.php';
