@@ -12,6 +12,7 @@ class Progress extends Model
     'date',
     'workout_done',
     'diet_done',
+    'completion_rate',
 ];
 public function student()
 {

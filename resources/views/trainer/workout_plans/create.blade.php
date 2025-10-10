@@ -42,6 +42,15 @@
                     <option value="female">Female</option>
                 </select>
             </div>
+            <div class="mb-4">
+                <label for="difficulty_level" class="block text-gray-700 font-bold mb-2">Difficulty Level</label>
+                <select name="difficulty_level" id="difficulty_level" class="border rounded w-full p-2">
+                    <option value="0" {{ old('difficulty_level')==0 ? 'selected' : '' }}>Easy</option>
+                    <option value="1" {{ old('difficulty_level')==1 ? 'selected' : '' }}>Medium</option>
+                    <option value="2" {{ old('difficulty_level')==2 ? 'selected' : '' }}>Hard</option>
+                </select>
+            </div>
+
 
             <div>
                 <label class="block font-semibold text-gray-700 mb-1">Duration (days)</label>

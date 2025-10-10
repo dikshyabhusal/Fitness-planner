@@ -9,6 +9,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
+
 
     <!-- Tailwind CSS via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -19,7 +21,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-4">
             <!-- Logo -->
-            <div class="text-2xl font-extrabold text-purple-400">
+            <div class="text-2xl text-purple-400" style="font-family: 'Pacifico', cursive;">
+
                 <a href="{{ route('home') }}">Fitness<span class="text-white">Planner</span></a>
             </div>
 
@@ -86,8 +89,11 @@
     <footer class="bg-[#0f1b2e] text-white mt-10">
     <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
         <!-- About -->
-        <div>
-            <h2 class="text-xl font-semibold text-purple-400 mb-3">Fitness Planner</h2>
+                <div>
+                    <h2 class="text-xl font-semibold text-purple-400 mb-3" style="font-family: 'Pacifico', cursive;">
+                    Fitness<span class="text-white">Planner</span>
+                    </h2>
+
             <p class="text-gray-400 text-sm">
                 Your personal workout planner – create routines, track progress, and meet your fitness goals. Designed for beginners to pros.
             </p>

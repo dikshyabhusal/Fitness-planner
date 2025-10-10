@@ -41,6 +41,7 @@ class WorkoutPlanController extends Controller
             'workout_days' => 'required|array',
             'diet' => 'required|array',
             'image' => 'nullable|image|max:2048',
+            'difficulty_level' => 'required|integer|in:0,1,2',
         ]);
         // dd($request->file('image'));
         $imagePath = null; // ✅ fix: initialize to avoid undefined variable
@@ -63,6 +64,7 @@ class WorkoutPlanController extends Controller
             'gender' => $request->gender,
             'duration_days' => $request->duration_days,
             'image' => $imagePath,
+            'difficulty_level'=>$request->difficulty_level,
         ]);
 
         $duration = $request->duration_days;
@@ -118,6 +120,7 @@ class WorkoutPlanController extends Controller
             'workout_days' => 'required|array',
             'diet' => 'required|array',
             'image' => 'nullable|image|max:2048',
+            'difficulty_level' => 'required|integer|in:0,1,2',
         ]);
 
         $plan = WorkoutPlan::findOrFail($id);
@@ -133,6 +136,7 @@ class WorkoutPlanController extends Controller
             'description' => $request->description,
             'gender' => $request->gender,
             'duration_days' => $request->duration_days,
+            'difficulty_level'=>$request->difficulty_level,
         ]);
 
         WorkoutDay::where('workout_plan_id', $plan->id)->delete();

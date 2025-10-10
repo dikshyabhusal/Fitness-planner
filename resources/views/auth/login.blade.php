@@ -38,10 +38,18 @@
                 </div>
 
                 <!-- Login Button -->
-                <div class="flex justify-end">
+                <div class="flex justify-end mb-4">
                     <x-primary-button class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-2">
                         {{ __('Log in') }}
                     </x-primary-button>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center text-sm">
+                    <span class="text-gray-600">Don't have an account?</span>
+                    <a href="{{ route('register') }}" class="text-purple-600 hover:underline font-medium ml-1">
+                        Register
+                    </a>
                 </div>
             </form>
         </div>

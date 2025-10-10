@@ -32,8 +32,12 @@ use App\Http\Controllers\TrainerWorkoutController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\WelcomeController;
 // 🏠 Public Pages
-Route::get('/', fn () => view('welcome'))->name('home');
+
+
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
 
 
 // Route::middleware(['auth','role:student'])->group(function () {
@@ -256,5 +260,6 @@ Route::post('/recommendation', [RecommendationController::class, 'recommends'])-
 Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
 Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
 
-
+Route::get('/recommend', [StudentWorkoutPlanController::class, 'recommend']);
+Route::post('/student/workout/complete', [StudentDashboardController::class, 'markWorkoutDone'])->name('student.workout.complete');
 require __DIR__.'/auth.php';

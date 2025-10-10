@@ -8,6 +8,8 @@ use App\Models\WorkoutPlan;
 use App\Models\SavedWorkoutPlan;
 use App\Models\DietPlan;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class WorkoutPlanController extends Controller
 {
@@ -58,4 +60,36 @@ class WorkoutPlanController extends Controller
 
         return back()->with('success', 'Workout Plan saved!');
     }
+
+
+    public function recommend(Request $request)
+{
+    $user = Auth::user(); // get currently logged-in user
+
+    $data = [
+        'age' => $user->age,          // fetch from users table
+        'gender' => $user->gender,
+        'height' => $user->height,
+        'weight' => $user->weight,
+        'goal' => $user->goal,        // if goal is stored in users table
+    ];
+
+    $jsonData = json_encode($data);
+
+    $process = new Process([
+        'python',
+        base_path('python_scripts/recommend_workouts.py'),
+        $jsonData
+    ]);
+    $process->run();
+
+    if (!$process->isSuccessful()) {
+        throw new ProcessFailedException($process);
+    }
+
+    $output = $process->getOutput();
+
+    return view('recommendations', ['output' => $output]);
+}
+
 }

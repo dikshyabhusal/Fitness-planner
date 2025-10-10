@@ -70,21 +70,28 @@
             </section>
 
             <!-- Workout Plans -->
-            <section class="max-w-7xl mx-auto text-center">
+            <section class="max-w-7xl mx-auto text-center py-12">
                 <h2 class="text-4xl font-extrabold text-purple-300 mb-12">Popular Workout Plans</h2>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    @foreach([
-                        ['title' => '6-Month Bodybuilding Program', 'goal' => 'Build Muscle'],
-                        ['title' => '3x5 Full Body Strength', 'goal' => 'Build Strength'],
-                        ['title' => 'Body Toning for Women', 'goal' => 'Muscle + Fat Loss'],
-                    ] as $plan)
-                        <div class="bg-white text-black rounded-xl p-6 shadow-md hover:shadow-xl transition duration-300">
-                            <h3 class="text-xl font-bold mb-2">{{ $plan['title'] }}</h3>
-                            <p class="text-gray-600">{{ $plan['goal'] }}</p>
+                    @foreach($plans as $plan)
+                        <div class="bg-white text-black rounded-xl p-6 shadow-md hover:shadow-xl transition duration-300 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">{{ $plan->title }}</h3>
+                                <p class="text-gray-600 line-clamp-3 mb-4">{{ $plan->description }}</p>
+                            </div>
+
+                            <!-- See Plan Button -->
+                            <a href="{{ route('login') }}" 
+                            class="mt-auto inline-block bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition">
+                                See Plan
+                            </a>
                         </div>
                     @endforeach
                 </div>
             </section>
+
+
 
             <!-- Coaching Tips -->
             <section class="max-w-6xl mx-auto mt-10">
