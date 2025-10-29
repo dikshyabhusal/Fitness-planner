@@ -1,7 +1,9 @@
 <x-app-layout>
     <div class="min-h-screen bg-gradient-to-b from-[#141e30] via-[#243b55] to-[#0f2027] text-white font-[Inter]">
-    {{-- HERO SECTION --}}
+    
+        {{-- HERO SECTION --}}
         <section class="relative w-full h-[90vh] bg-cover bg-center flex items-center justify-center"
+        
             style="background-image: url('https://source.unsplash.com/1600x900/?fitness,training');">
             <div class="absolute inset-0 bg-black bg-opacity-70 backdrop-blur-md"></div>
                 <div class="relative z-10 px-6 text-center max-w-4xl space-y-6 animate-fade-in">
@@ -14,7 +16,19 @@
                     </p>
                 </div>
         </section>
+{{-- GLOBAL SEARCH BAR --}}
+        <section class="max-w-4xl mx-auto mt-[-60px] z-20 relative">
+            <form action="{{ route('tfidf.recommendations') }}" method="GET" class="flex items-center bg-white/10 backdrop-blur-md rounded-full shadow-lg p-3">
+                <input type="text" name="q" placeholder="🔍 Search workouts, exercises, diet plans, or videos..."
+                    class="flex-1 bg-transparent text-white placeholder-gray-400 outline-none px-4 text-lg">
+                <button type="submit"
+                        class="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition font-semibold">
+                    Search
+                </button>
+            </form>
+        </section>
 
+    
     {{-- DAILY DASHBOARD --}}
         <section class="max-w-7xl mx-auto text-center py-20">
             <h2 class="text-4xl font-extrabold text-purple-300 mb-12">"{{ $quote }}"</h2>

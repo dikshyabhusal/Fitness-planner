@@ -58,7 +58,7 @@
                 @endforeach
             </div>
         </div>
-
+@if(auth()->user()->hasRole('student'))
         <!-- 🧾 Daily Progress Tracker -->
         <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-400">
             <h3 class="text-2xl font-bold text-blue-700 mb-4">📌 Track Your Daily Progress</h3>
@@ -72,6 +72,7 @@
                 📊 View Full Progress Report
             </a>
         </div>
+@endif
         <!-- Leave a Review Section -->
 @if(auth()->user()->hasRole('student'))
     <form action="{{ route('reviews.store') }}" method="POST" class="mt-6">

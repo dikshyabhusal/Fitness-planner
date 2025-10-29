@@ -52,5 +52,32 @@ class ExerciseVideoController extends Controller
 
     return redirect()->route('videos.create')->with('success', 'Video uploaded successfully.');
 }
+public function trainerindex()
+{
+    $videos = ExerciseVideo::all();
+    return view('videos.trainerindex', compact('videos'));
+}
+public function edit($id)
+{
+    $video = ExerciseVideo::findOrFail($id);
+    return view('videos.edit', compact('video'));
+}
+
+public function update(Request $request, $id)
+{
+    $video = ExerciseVideo::findOrFail($id);
+    $video->update($request->all());
+    return redirect()->route('videos.trainerindex')->with('success', 'Video updated successfully!');
+}
+
+public function destroy($id)
+{
+    $video = ExerciseVideo::findOrFail($id);
+    if (file_exists(public_path($video->video_path))) {
+        unlink(public_path($video->video_path));
+    }
+    $video->delete();
+    return redirect()->route('videos.trainerindex')->with('success', 'Video deleted successfully!');
+}
 
 }

@@ -37,7 +37,7 @@
                     <ul x-show="open" x-transition class="absolute mt-2 bg-white text-gray-800 rounded shadow-md w-64 z-50 text-sm">
                         <li><x-nav-link :href="route('trainer.workouts.index')" :active="request()->routeIs('trainer.workouts.*')">WORKOUTS</x-nav-link></li>
                         <li><x-nav-link :href="route('trainer.dietplans.index')" :active="request()->routeIs('trainer.dietplans.index*')" class="hover:text-purple-300">DIET PLANS</x-nav-link></li>
-                        <li><x-nav-link :href="route('videos.create')" :active="request()->routeIs('videos.create*')" class="hover:text-purple-300">VIDEO</x-nav-link></li>
+                        <li><x-nav-link :href="route('videos.trainerindex')" :active="request()->routeIs('videos.trainerindex*')" class="hover:text-purple-300">VIDEO</x-nav-link></li>
                         <li><x-nav-link :href="route('trainer.exercises.index')" :active="request()->routeIs('trainer.exercises.index*')" class="hover:text-purple-300">EXERCISE</x-nav-link></li>
                     </ul>
                 </li>

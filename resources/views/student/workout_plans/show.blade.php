@@ -58,7 +58,7 @@
                 @endforeach
             </div>
         </div>
-
+    @if(auth()->user()->hasRole('student'))
         <!-- 🧾 Daily Progress Tracker -->
         <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-400">
             <h3 class="text-2xl font-bold text-blue-700 mb-4">📌 Track Your Daily Progress</h3>
@@ -69,10 +69,10 @@
         <div class="text-center">
             <a href="{{ route('student.progress.report', $plan->id) }}"
                class="inline-block mt-8 bg-purple-700 hover:bg-purple-800 text-white px-4 py-3 rounded-xl font-semibold shadow-lg transition">
-                📊 View Full Progress Report
+                📊 View Full Progress Reports
             </a>
         </div>
-    
+    @endif
 
         <!-- Leave a Review Section -->
 @if(auth()->user()->hasRole('student'))

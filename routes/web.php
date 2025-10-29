@@ -33,6 +33,8 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\WelcomeController;
+// use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TFIDFController;
 // 🏠 Public Pages
 
 
@@ -174,9 +176,21 @@ Route::middleware(['auth', 'role:trainer'])->group(function () {
     
 });
 
-Route::middleware(['auth','role:student'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/videos', [ExerciseVideoController::class, 'index'])->name('videos.index');
 });
+
+Route::get('/trainer/videos', [ExerciseVideoController::class, 'trainerindex'])->name('videos.trainerindex');
+
+Route::get('/trainer/videos/{id}/edit', [ExerciseVideoController::class, 'edit'])->name('videos.edit');
+
+Route::put('/trainer/videos/{id}', [ExerciseVideoController::class, 'update'])->name('videos.update');
+
+Route::delete('/trainer/videos/{id}', [ExerciseVideoController::class, 'destroy'])->name('videos.destroy');
+
+
+
+
 Route::middleware(['auth', 'role:student'])->post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 Route::view('/privacy-policy', 'privacy')->name('privacy.policy');
 
@@ -262,4 +276,15 @@ Route::post('/testimonials', [TestimonialController::class, 'store'])->name('tes
 
 Route::get('/recommend', [StudentWorkoutPlanController::class, 'recommend']);
 Route::post('/student/workout/complete', [StudentDashboardController::class, 'markWorkoutDone'])->name('student.workout.complete');
+
+// Route::get('/search', [SearchController::class, 'search'])->name('search.results');
+
+
+Route::match(['get','post'], '/recommendations', [TFIDFController::class, 'recommend'])
+    ->name('tfidf.recommendations');
+
+Route::post('/recommendations', [TFIDFController::class, 'recommend'])
+    ->name('tfidf.recommendations.post');
+
+
 require __DIR__.'/auth.php';
